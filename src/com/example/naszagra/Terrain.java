@@ -25,7 +25,7 @@ public class Terrain {
 			y = generator.nextInt(500)+100;
 			Points[i] = new Point(x,y);
 		}
-		x = 1920;
+		x = 1920;			//AppConstants.SCREEN_WIDTH || AppConstants.SCREEN_HEIGHT
 		y = generator.nextInt(200)+300;
 		Points[9] = new Point(x,y);
 		
@@ -82,7 +82,7 @@ public class Terrain {
 			Point p = new Point();
 			
 			p.SetX(this.Points[i].GetX());
-			p.SetY(1080 - this.Points[i].GetY());
+			p.SetY(1080 - this.Points[i].GetY());//jakie 1080...
 			terr.add(p);
 		}
 		return terr;
@@ -97,7 +97,7 @@ public class Terrain {
 			Point p = new Point();
 			
 			p.SetX(this.Obstacles[i].X);
-			p.SetY(1080 - this.Obstacles[i].Y);
+			p.SetY(1080 - this.Obstacles[i].Y);//jakie 1080...
 			ob.add(p);
 		}
 		return ob;

@@ -29,16 +29,18 @@ public class Engine
 	Boolean turn;
 	AlgGen ai;
 	Paint paint;
+	Paint tpaint;
 		
 	public Engine()
 	{
-		start();
 		AI = new Player(1,1);
 		player = new Player(1,1);
 		arrows = new LinkedList<Arrow>();
 		paint = new Paint();
+		tpaint = new Paint();
 		bow = new Bow();
 		terrain = new Terrain();
+		start();
 	}
 	
 	private void start() {
@@ -59,7 +61,7 @@ public class Engine
 		if(turn==false)
 		{
 			//IZ IT GOOD?
-			ai = new AlgGen(0, player, AI, terrain);
+			ai = new AlgGen(20, player, AI, terrain);
 			turn=true;
 		}
 		
@@ -100,15 +102,22 @@ public class Engine
 	{
 		DrawControls(canvas);
 		DrawPlayer(canvas);
+		DrawPC(canvas);
 		DrawBow(canvas);
 		DrawArrows(canvas);
 		DrawAim(canvas);
 		DrawTerrain(canvas);
 
 	}
+	private void DrawPC(Canvas canvas) {
+		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
+		canvas.drawBitmap(_player, (float)player.GetDrawX(), (float)player.GetDrawY(), paint);
+		
+	}
+
 	private void DrawTerrain(Canvas canvas) 
 	{
-		paint.setColor(Color.BLACK);
+		tpaint.setColor(Color.BLACK);
 		
 		ArrayList<Point> points = terrain.GetDrawTerrain();
 		for(int i=0;i< points.size();i++)
@@ -116,15 +125,20 @@ public class Engine
 			terr=points.get(i);
 			terx=(float) terr.GetX();
 			tery=(float) terr.GetY();
+			if(i==0)mpath.moveTo(terx, tery);
+
 			mpath.lineTo(terx, tery);
-			mpath.moveTo(terx, tery);
+			
 		}
+		tpaint.setStrokeWidth(3);
+		tpaint.setStyle(Paint.Style.STROKE);
+		canvas.drawPath(mpath, tpaint);
 	}
 
 
 	private void DrawPlayer(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
-		canvas.drawBitmap(_player, (float)player.GetDrawX(), (float)player.GetDrawY(), paint);
+		canvas.drawBitmap(_player, (float)AI.GetDrawX(), (float)AI.GetDrawY(), paint);
 		
 	}
 
