@@ -61,7 +61,7 @@ public class Terrain {
 				return Points[j].GetY();
 		
 		int i, j = 0;
-		for(i = 0; i < Points.length; i++)
+		for(i = 0; i < Points.length-1; i++)
 			if(this.Points[i].GetX() < x && this.Points[i+1].GetX() > x)
 				j = i;
 
