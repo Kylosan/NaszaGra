@@ -10,16 +10,16 @@ public class Player {
 	Player()
 	{
 		pos = new Point();
-		H = 70;
-		W = 30;
+		H = AppConstants.SCREEN_HEIGHT/16;
+		W = AppConstants.SCREEN_WIDTH/64;
 		health = 100;
 	}
 	
 	Player(double posX, double posY)
 	{
 		pos = new Point(posX, posY);
-		H = 70;
-		W = 30;
+		H = AppConstants.SCREEN_HEIGHT/16;
+		W = AppConstants.SCREEN_WIDTH/64;
 		health = 100;
 	}
 	
@@ -41,7 +41,7 @@ public class Player {
 	
 	public double GetY()
 	{
-		return AppConstants.SCREEN_HEIGHT-(pos.GetY()+H);
+		return pos.GetY();
 	}
 	
 	public double GetDrawX()
@@ -51,7 +51,7 @@ public class Player {
 	
 	public double GetDrawY()
 	{
-		return AppConstants.SCREEN_HEIGHT-(pos.GetY()+H);
+		return AppConstants.SCREEN_HEIGHT-pos.GetY()-H;
 	}
 	
 	public Shot GetShot()

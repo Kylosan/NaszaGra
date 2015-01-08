@@ -16,23 +16,23 @@ public class Terrain {
 		//Losowe 10 punktów tworz¹cych teren
 		Random generator = new Random(); 
 		int x = 0;
-		int y = generator.nextInt(200)+300;
+		int y = generator.nextInt(AppConstants.SCREEN_HEIGHT-300)+200;
 		Points[0] = new Point(x,y);
 		
-		for(int i = 0; i < 9; i++)
+		for(int i = 1; i < 9; i++)
 		{
-			x = generator.nextInt(100)+(i*213)-50;;
-			y = generator.nextInt(500)+100;
+			x = (int)Points[i-1].GetX()+generator.nextInt(AppConstants.SCREEN_WIDTH/(9-i)/2)+ AppConstants.SCREEN_WIDTH/(9-i)/2;
+			y = generator.nextInt(AppConstants.SCREEN_HEIGHT-300)+200;
 			Points[i] = new Point(x,y);
 		}
-		x = 1920;			//AppConstants.SCREEN_WIDTH || AppConstants.SCREEN_HEIGHT
-		y = generator.nextInt(200)+300;
+		x = AppConstants.SCREEN_WIDTH;
+		y = generator.nextInt(AppConstants.SCREEN_HEIGHT-300)+200;
 		Points[9] = new Point(x,y);
 		
-		x = generator.nextInt(200) + 700;
+		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2-100) + 100;
 		Obstacles[0] = new Obstacle(x,Height(x),10,100);
-		x = generator.nextInt(800) + 1700;
-		Obstacles[0] = new Obstacle(x,Height(x),10,100);
+		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2-100) + AppConstants.SCREEN_WIDTH/2;
+		Obstacles[1] = new Obstacle(x,Height(x),10,100);
 	}
 	
 	public boolean Collision(Point p)
@@ -45,8 +45,8 @@ public class Terrain {
 		
 		for(int i = 0; i<2; i++)
 		{
-			//if(Obstacles[i].Collision(p))
-				//return true;
+			if(Obstacles[i].Collision(p))
+				return true;
 		}
 		
 		return false;
@@ -58,7 +58,7 @@ public class Terrain {
 		
 		for(int j = 0; j < Points.length; j++)
 			if(x==Points[j].GetX())
-				return Points[j].GetY();
+				return AppConstants.SCREEN_HEIGHT-Points[j].GetY();
 		
 		int i, j = 0;
 		for(i = 0; i < Points.length-1; i++)
@@ -70,7 +70,7 @@ public class Terrain {
 
 		y = a*x+b;
 		
-		return y;
+		return AppConstants.SCREEN_HEIGHT-y;
 	}
 	
 	public ArrayList<Point> GetDrawTerrain()
@@ -82,7 +82,7 @@ public class Terrain {
 			Point p = new Point();
 			
 			p.SetX(this.Points[i].GetX());
-			p.SetY(AppConstants.SCREEN_WIDTH - this.Points[i].GetY());//jakie 1080...
+			p.SetY(this.Points[i].GetY());
 			terr.add(p);
 		}
 		return terr;
@@ -97,7 +97,7 @@ public class Terrain {
 			Point p = new Point();
 			
 			p.SetX(this.Obstacles[i].X);
-			p.SetY(1080 - this.Obstacles[i].Y);//jakie 1080...
+			p.SetY(AppConstants.SCREEN_HEIGHT - this.Obstacles[i].Y);
 			ob.add(p);
 		}
 		return ob;

@@ -21,7 +21,7 @@ public class Engine
 	static final float DO_NOT_DRAW_X = Float.MAX_VALUE;
 	static final float DO_NOT_DRAW_Y = Float.MAX_VALUE;
 	float Px, Py,arx5,ary5, arx,ary, powx=0;
-	int terx=0,tery=0;
+	float terx=0,tery=0;
 	Point arr,arr5,terr;
 	Player player;
 	Player AI;
@@ -64,6 +64,7 @@ public class Engine
 		if(turn==false)
 		{
 			//IZ IT GOOD?
+			
 			ai.Iteration();
 			ai.BestShot();
 			ai.BestShot().GetHit();
@@ -87,7 +88,7 @@ public class Engine
 					arr= a.trajectory.get(i);
 					arx=(float) arr.GetX();
 					ary=(float) arr.GetY();
-				a.Advance(ARROWS_COUNT,arx,ary);
+					a.Advance(ARROWS_COUNT,arx,ary);
 				}
 			}
 		}
@@ -95,11 +96,13 @@ public class Engine
 	
 	public void PlayerPos(float plaX, float plaY)
 	{
-		Px += plaX;
-		Py += plaY;
-		bow.SetX((int) plaX);
-		bow.SetY((int) plaY);		
-		player.Move(Px, terrain.Height(Px));
+		if(Px+plaX+player.W < terrain.Obstacles[0].X)
+		{
+			Px += plaX;
+			bow.SetX((int) plaX);
+			bow.SetY((int) plaY);		
+			player.Move(Px, terrain.Height(Px));
+		}
 	}
 
 	public void Draw(Canvas canvas)
@@ -116,7 +119,6 @@ public class Engine
 	private void DrawPC(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
 		canvas.drawBitmap(_player, (float)player.GetDrawX(), (float)player.GetDrawY(), paint);
-		
 	}
 
 	private void DrawTerrain(Canvas canvas) 
@@ -125,24 +127,34 @@ public class Engine
 		tpaint.setStrokeWidth(3);
 		tpaint.setStyle(Paint.Style.STROKE);
 		ArrayList<Point> points = terrain.GetDrawTerrain();
-		Point pp = new Point();
-		int tx,ty,ftx=0,fty=0;
-		for(int i=1;i< points.size();i++)
-		{
-			pp.Copy(points.get(i-1));
-			terr.Copy(points.get(i));
-			//terr.Copy(pp);
-			tx=(int) pp.GetX();
-			ty=(int) pp.GetY();
-			terx=(int) terr.GetX();
-			tery=(int) terr.GetY();
-			ftx+= terx-tx;
-			fty+= tery-ty;
-			mpath.lineTo(ftx, fty);
 
+		for(int i=0; i<points.size(); i++)
+		{
+			terr.Copy(points.get(i));
+			terx=(float) terr.GetX();
+			tery=(float) terr.GetY();
+			if(i==0)
+				mpath.moveTo(terx, tery);
+			else
+				mpath.lineTo(terx, tery);
 		}
 		canvas.drawPath(mpath, tpaint);
 		
+		points = terrain.GetDrawObstacles();
+		for(int i = 0; i<2; i++)
+		{
+			mpath = new Path();
+
+			terr.Copy(points.get(i));
+			terx=(float) terr.GetX();
+			tery=(float) terr.GetY();
+			mpath.moveTo(terx, tery);
+			mpath.lineTo(terx, tery-AppConstants.SCREEN_HEIGHT/5);
+			mpath.lineTo(terx+AppConstants.SCREEN_WIDTH/200, tery-AppConstants.SCREEN_HEIGHT/5);
+			mpath.lineTo(terx+AppConstants.SCREEN_WIDTH/200, AppConstants.SCREEN_HEIGHT-(float)terrain.Height(terx+AppConstants.SCREEN_WIDTH/200));
+			
+			canvas.drawPath(mpath, tpaint);
+		}
 	}
 
 

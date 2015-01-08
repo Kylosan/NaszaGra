@@ -49,7 +49,7 @@ public class Shot {
 				break;
 			
 			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
-			p.SetY(1080 - (force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 + start.GetY()));
+			p.SetY(AppConstants.SCREEN_HEIGHT - (force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 + start.GetY()));
 			traj.add(p);
 			t+=0.01;
 		}
