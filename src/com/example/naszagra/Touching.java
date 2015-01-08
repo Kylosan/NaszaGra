@@ -56,7 +56,14 @@ public class Touching extends Activity {
 		int x = (int)event.getX();
 		int y = (int)event.getY();
 		
-		
+		if(x>0&&x<100 && y>0 && y<100)
+		{
+			AppConstants.GetEngine().PlayerPos(-1, 0);
+		}
+		else if(x>120&&x<200 && y>0 && y<100)
+		{
+			AppConstants.GetEngine().PlayerPos(1, 0);
+		}
 		
 		if(GetIfTouchInTheZone(x, y))
 		{
@@ -88,15 +95,8 @@ public class Touching extends Activity {
 	{
 		int x = (int)event.getX();
 		int y = (int)event.getY();
-		if(x>0&&x<100 && y>0 && y<100)
-		{
-			AppConstants.GetEngine().PlayerPos(-1, 0);
-		}
-		else if(x>120&&x<200 && y>0 && y<100)
-		{
-			AppConstants.GetEngine().PlayerPos(1, 0);
-		}
-		else if(x>0&&x<AppConstants.SCREEN_WIDTH && y>AppConstants.SCREEN_HEIGHT-50 && y<AppConstants.SCREEN_HEIGHT)
+		
+		if(x>0&&x<AppConstants.SCREEN_WIDTH && y>AppConstants.SCREEN_HEIGHT-50 && y<AppConstants.SCREEN_HEIGHT)
 		{
 			AppConstants.GetEngine().powermeter(x);
 		}

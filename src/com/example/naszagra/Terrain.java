@@ -45,8 +45,8 @@ public class Terrain {
 		
 		for(int i = 0; i<2; i++)
 		{
-			if(Obstacles[i].Collision(p))
-				return true;
+			//if(Obstacles[i].Collision(p))
+				//return true;
 		}
 		
 		return false;
@@ -82,7 +82,7 @@ public class Terrain {
 			Point p = new Point();
 			
 			p.SetX(this.Points[i].GetX());
-			p.SetY(1080 - this.Points[i].GetY());//jakie 1080...
+			p.SetY(AppConstants.SCREEN_WIDTH - this.Points[i].GetY());//jakie 1080...
 			terr.add(p);
 		}
 		return terr;
@@ -101,5 +101,13 @@ public class Terrain {
 			ob.add(p);
 		}
 		return ob;
+	}
+	
+	public void Copy (Terrain t)
+	{
+		this.Obstacles[0].Copy(t.Obstacles[0]);
+		this.Obstacles[1].Copy(t.Obstacles[1]);
+		for(int i = 0; i < 10; i++)
+			this.Points[i].Copy(t.Points[i]);
 	}
 }

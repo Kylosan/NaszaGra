@@ -20,7 +20,8 @@ public class Engine
 	static float _lastTouchedX, _lastTouchedY;
 	static final float DO_NOT_DRAW_X = Float.MAX_VALUE;
 	static final float DO_NOT_DRAW_Y = Float.MAX_VALUE;
-	float Px, Py,arx5,ary5, arx,ary,terx,tery, powx=0;
+	float Px, Py,arx5,ary5, arx,ary, powx=0;
+	int terx=0,tery=0;
 	Point arr,arr5,terr;
 	Player player;
 	Player AI;
@@ -40,6 +41,8 @@ public class Engine
 		tpaint = new Paint();
 		bow = new Bow();
 		terrain = new Terrain();
+		terr=new Point();
+		ai = new AlgGen(20, player, AI, terrain);
 		start();
 	}
 	
@@ -61,7 +64,9 @@ public class Engine
 		if(turn==false)
 		{
 			//IZ IT GOOD?
-			ai = new AlgGen(20, player, AI, terrain);
+			ai.Iteration();
+			ai.BestShot();
+			ai.BestShot().GetHit();
 			turn=true;
 		}
 		
@@ -74,9 +79,9 @@ public class Engine
 		{
 			for(Arrow a : arrows)
 			{
-				for(int i=5;i<a.trajectory.size();i++)
+				for(int i=10;i<a.trajectory.size();i++)
 				{
-					arr5 = a.trajectory.get(i-5);
+					arr5 = a.trajectory.get(i-10);
 					arx5=(float) arr5.GetX();
 					ary5=(float) arr5.GetY();
 					arr= a.trajectory.get(i);
@@ -85,7 +90,6 @@ public class Engine
 				a.Advance(ARROWS_COUNT,arx,ary);
 				}
 			}
-			
 		}
 	}
 	
@@ -95,7 +99,7 @@ public class Engine
 		Py += plaY;
 		bow.SetX((int) plaX);
 		bow.SetY((int) plaY);		
-		player.Move(Px, Py);
+		player.Move(Px, terrain.Height(Px));
 	}
 
 	public void Draw(Canvas canvas)
@@ -118,21 +122,27 @@ public class Engine
 	private void DrawTerrain(Canvas canvas) 
 	{
 		tpaint.setColor(Color.BLACK);
-		
-		ArrayList<Point> points = terrain.GetDrawTerrain();
-		for(int i=0;i< points.size();i++)
-		{
-			terr=points.get(i);
-			terx=(float) terr.GetX();
-			tery=(float) terr.GetY();
-			if(i==0)mpath.moveTo(terx, tery);
-
-			mpath.lineTo(terx, tery);
-			
-		}
 		tpaint.setStrokeWidth(3);
 		tpaint.setStyle(Paint.Style.STROKE);
+		ArrayList<Point> points = terrain.GetDrawTerrain();
+		Point pp = new Point();
+		int tx,ty,ftx=0,fty=0;
+		for(int i=1;i< points.size();i++)
+		{
+			pp.Copy(points.get(i-1));
+			terr.Copy(points.get(i));
+			//terr.Copy(pp);
+			tx=(int) pp.GetX();
+			ty=(int) pp.GetY();
+			terx=(int) terr.GetX();
+			tery=(int) terr.GetY();
+			ftx+= terx-tx;
+			fty+= tery-ty;
+			mpath.lineTo(ftx, fty);
+
+		}
 		canvas.drawPath(mpath, tpaint);
+		
 	}
 
 

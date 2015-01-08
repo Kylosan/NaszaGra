@@ -18,4 +18,12 @@ public class Obstacle {
 			return true;
 		return false;
 	}
+	
+	public void Copy(Obstacle o)
+	{
+		this.X = o.X;
+		this.Y = o.Y;
+		this.height = o.height;
+		this.width=o.width;
+	}
 }
