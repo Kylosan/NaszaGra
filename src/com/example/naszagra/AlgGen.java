@@ -39,9 +39,4 @@ public class AlgGen {
 		P.Rate();
 		P.Probability();
 	}
-	
-	public String Show()
-	{
-		return P.Show();
-	}
 }

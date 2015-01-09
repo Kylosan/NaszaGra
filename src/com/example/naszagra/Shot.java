@@ -18,7 +18,7 @@ public class Shot {
 		target.Copy(t);
 		terrain = ter;
 		double dist = Math.sqrt(Math.pow((start.GetX()-target.GetX()), 2)+Math.pow((start.GetY()-target.GetY()), 2));
-		force = Math.random()*dist*0.6;
+		force = Math.random()*dist*0.4;
 		angle = Math.random()*Math.PI/3;
 		g=9.81;
 		
@@ -37,19 +37,17 @@ public class Shot {
 		g = 9.81;
 	}
 
-	public ArrayList<Point> GetDrawTrajectory() 
+	public ArrayList<Point> GetTrajectory() 
 	{ 
 		ArrayList<Point> traj = new ArrayList<Point>();
-		
+		double t = 0;
 		while(true)
 		{
-			double t = 0;
-			Point p = new Point(start.GetX(), start.GetY());
-			if(terrain.Collision(p))
-				break;
-			
+			Point p = new Point();
 			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
-			p.SetY(AppConstants.SCREEN_HEIGHT - (force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 + start.GetY()));
+			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
+			if(terrain.Collision(p))
+				break;	
 			traj.add(p);
 			t+=0.01;
 		}
@@ -67,23 +65,15 @@ public class Shot {
 				hit = 1;
 			else
 				hit = 0;
-			
+
 			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
-			p.SetY(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 + start.GetY());
+			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
 			dist = Math.sqrt(Math.pow((p.GetX()-target.GetX()), 2)+Math.pow((p.GetY()-target.GetY()), 2));
 			if(dist<min)
 				min = dist;
 			t+=0.01;
 		}
 		return min;
-	}
-	
-	public String ToString()
-	{
-		String s = "";
-		//s += "Si³a: "+force + ", k¹t: "+ angle + ", pozycja X: " + start.GetX() + ", odleg³óœæ: " + Accuracy();
-		s += ""+force + ", "+ angle + ", " + start.GetX() + ", " + Accuracy();
-		return s;
 	}
 	
 	public void SetPlayersPosition(Point s, Point t)
@@ -136,5 +126,8 @@ public class Shot {
 		this.SetAngle(s.GetAngle());
 		this.start.Copy(s.start);
 		this.target.Copy(s.target);
+		this.terrain.Copy(s.terrain);
+		this.direction = s.direction;
+		this.hit = s.hit;
 	}
 }

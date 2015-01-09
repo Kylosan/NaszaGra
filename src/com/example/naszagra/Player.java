@@ -51,11 +51,20 @@ public class Player {
 	
 	public double GetDrawY()
 	{
-		return AppConstants.SCREEN_HEIGHT-pos.GetY()-H;
+		return pos.GetY()-H;
 	}
 	
 	public Shot GetShot()
 	{
 		return shot;
+	}
+
+	public void Copy(Player p) 
+	{
+		this.pos.Copy(p.pos);
+		this.shot.Copy(p.GetShot());
+		this.H=p.H;
+		this.W=p.W;
+		this.health=p.health;
 	}
 }

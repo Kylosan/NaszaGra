@@ -30,17 +30,17 @@ public class Terrain {
 		Points[9] = new Point(x,y);
 		
 		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2-100) + 100;
-		Obstacles[0] = new Obstacle(x,Height(x),10,100);
-		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2-100) + AppConstants.SCREEN_WIDTH/2;
-		Obstacles[1] = new Obstacle(x,Height(x),10,100);
+		Obstacles[0] = new Obstacle(x,Height(x),AppConstants.SCREEN_WIDTH/200,AppConstants.SCREEN_HEIGHT/5);
+		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2) + AppConstants.SCREEN_WIDTH/2-100;
+		Obstacles[1] = new Obstacle(x,Height(x),AppConstants.SCREEN_WIDTH/200,AppConstants.SCREEN_HEIGHT/5);
 	}
 	
 	public boolean Collision(Point p)
 	{
-		if(p.GetX() < 0 || p.GetY() < 0)
+		if(p.GetX() < 0)
 			return true;
 		
-		if(p.GetY() < Height(p.GetX()))
+		if(p.GetY() > Height(p.GetX()))
 			return true;
 		
 		for(int i = 0; i<2; i++)
@@ -58,7 +58,7 @@ public class Terrain {
 		
 		for(int j = 0; j < Points.length; j++)
 			if(x==Points[j].GetX())
-				return AppConstants.SCREEN_HEIGHT-Points[j].GetY();
+				return Points[j].GetY();
 		
 		int i, j = 0;
 		for(i = 0; i < Points.length-1; i++)
@@ -70,10 +70,10 @@ public class Terrain {
 
 		y = a*x+b;
 		
-		return AppConstants.SCREEN_HEIGHT-y;
+		return y;
 	}
 	
-	public ArrayList<Point> GetDrawTerrain()
+	public ArrayList<Point> GetTerrain()
 	{
 		ArrayList<Point> terr = new ArrayList<Point>();
 		
@@ -88,7 +88,7 @@ public class Terrain {
 		return terr;
 	}
 	
-	public ArrayList<Point> GetDrawObstacles()
+	public ArrayList<Point> GetObstacles()
 	{
 		ArrayList<Point> ob = new ArrayList<Point>();
 		
@@ -97,7 +97,19 @@ public class Terrain {
 			Point p = new Point();
 			
 			p.SetX(this.Obstacles[i].X);
-			p.SetY(AppConstants.SCREEN_HEIGHT - this.Obstacles[i].Y);
+			p.SetY(this.Obstacles[i].Y);
+			ob.add(p);
+			p = new Point();
+			p.SetX(this.Obstacles[i].X);
+			p.SetY(this.Obstacles[i].Y-this.Obstacles[i].height);
+			ob.add(p);
+			p = new Point();
+			p.SetX(this.Obstacles[i].X+this.Obstacles[i].width);
+			p.SetY(this.Obstacles[i].Y-this.Obstacles[i].height);
+			ob.add(p);
+			p = new Point();
+			p.SetX(this.Obstacles[i].X+this.Obstacles[i].width);
+			p.SetY(this.Height(p.GetX()));
 			ob.add(p);
 		}
 		return ob;

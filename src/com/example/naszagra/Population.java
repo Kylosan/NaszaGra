@@ -132,14 +132,6 @@ public class Population {
 			this.Pop[i].SetPlayersPosition(player, ai);
 	}
 	
-	public String Show()
-	{
-		String s="";
-		for(int i = 0; i< count; i++)
-			s+=Pop[i].ToString()+"\n";
-		return s;
-	}
-	
 	public void Copy(Population p)
 	{
 		for(int i = 0; i< count; i++)

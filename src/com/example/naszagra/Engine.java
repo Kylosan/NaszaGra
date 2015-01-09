@@ -31,7 +31,7 @@ public class Engine
 	AlgGen ai;
 	Paint paint;
 	Paint tpaint;
-		
+	
 	public Engine()
 	{
 		AI = new Player(1,1);
@@ -42,14 +42,18 @@ public class Engine
 		bow = new Bow();
 		terrain = new Terrain();
 		terr=new Point();
+		
+		AI.Move(AppConstants.SCREEN_WIDTH-AI.W*2, terrain.Height(AppConstants.SCREEN_WIDTH-AI.W*2));
+		player.Move(player.W*2, terrain.Height(player.W*2));//TO MUSI BYÆ PRZD STWORZENIEM AI
+		
 		ai = new AlgGen(20, player, AI, terrain);
 		start();
 	}
 	
 	private void start() {
-		AI.Move(AppConstants.SCREEN_WIDTH-AI.W*2, terrain.Height(AppConstants.SCREEN_WIDTH-AI.W*2));
-		player.Move(player.W*2, terrain.Height(player.W*2));
-		turn=true;
+		//AI.Move(AppConstants.SCREEN_WIDTH-AI.W*2, terrain.Height(AppConstants.SCREEN_WIDTH-AI.W*2));
+		//player.Move(player.W*2, terrain.Height(player.W*2));
+		turn=false;//true;
 	}
 
 	public void Update()
@@ -63,16 +67,40 @@ public class Engine
 	{
 		if(turn==false)
 		{
-			//IZ IT GOOD?
-			
-			ai.Iteration();
-			ai.BestShot();
-			ai.BestShot().GetHit();
-			turn=true;
+			for(int it = 0; it <1; it++)//Dopasowaæ iloœæ iteracji
+			{
+				ai.Iteration();
+			}
 		}
-		
+		turn = true;
 	}
 
+	private void DrawTraj(Canvas canvas)//tymczasowe 
+	{
+		tpaint.setColor(Color.RED);
+		tpaint.setStrokeWidth(3);
+		tpaint.setStyle(Paint.Style.STROKE);
+		mpath = new Path();
+		
+		Shot BS = new Shot();
+		BS.Copy(ai.BestShot());
+		
+		ArrayList<Point> points = BS.GetTrajectory();
+		mpath = new Path();
+		
+		for(int i=0; i<points.size(); i++)
+		{
+			
+			terr.Copy(points.get(i));
+			terx=(float) terr.GetX();
+			tery=(float) terr.GetY();
+			if(i==0)
+				mpath.moveTo(terx, tery);
+			else
+				mpath.lineTo(terx, tery);
+		}
+		canvas.drawPath(mpath, tpaint);
+	}
 
 	private void AdvanceArrows() 
 	{	
@@ -114,7 +142,7 @@ public class Engine
 		DrawArrows(canvas);
 		DrawAim(canvas);
 		DrawTerrain(canvas);
-
+		DrawTraj(canvas);
 	}
 	private void DrawPC(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
@@ -126,10 +154,12 @@ public class Engine
 		tpaint.setColor(Color.BLACK);
 		tpaint.setStrokeWidth(3);
 		tpaint.setStyle(Paint.Style.STROKE);
-		ArrayList<Point> points = terrain.GetDrawTerrain();
-
+		ArrayList<Point> points = terrain.GetTerrain();
+		mpath = new Path();
+		
 		for(int i=0; i<points.size(); i++)
 		{
+			
 			terr.Copy(points.get(i));
 			terx=(float) terr.GetX();
 			tery=(float) terr.GetY();
@@ -140,19 +170,27 @@ public class Engine
 		}
 		canvas.drawPath(mpath, tpaint);
 		
-		points = terrain.GetDrawObstacles();
-		for(int i = 0; i<2; i++)
+		points = terrain.GetObstacles();
+		for(int i = 0; i<=1; i++)
 		{
 			mpath = new Path();
 
-			terr.Copy(points.get(i));
+			terr.Copy(points.get(0+4*i));
 			terx=(float) terr.GetX();
 			tery=(float) terr.GetY();
 			mpath.moveTo(terx, tery);
-			mpath.lineTo(terx, tery-AppConstants.SCREEN_HEIGHT/5);
-			mpath.lineTo(terx+AppConstants.SCREEN_WIDTH/200, tery-AppConstants.SCREEN_HEIGHT/5);
-			mpath.lineTo(terx+AppConstants.SCREEN_WIDTH/200, AppConstants.SCREEN_HEIGHT-(float)terrain.Height(terx+AppConstants.SCREEN_WIDTH/200));
-			
+			terr.Copy(points.get(1+4*i));
+			terx=(float) terr.GetX();
+			tery=(float) terr.GetY();
+			mpath.lineTo(terx, tery);
+			terr.Copy(points.get(2+4*i));
+			terx=(float) terr.GetX();
+			tery=(float) terr.GetY();
+			mpath.lineTo(terx, tery);
+			terr.Copy(points.get(3+4*i));
+			terx=(float) terr.GetX();
+			tery=(float) terr.GetY();
+			mpath.lineTo(terx, tery);
 			canvas.drawPath(mpath, tpaint);
 		}
 	}

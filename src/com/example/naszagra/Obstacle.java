@@ -4,7 +4,7 @@ public class Obstacle {
 	
 	double X, Y, height, width;
 	
-	Obstacle(double posX, double posY, double h, double w)
+	Obstacle(double posX, double posY, double w, double h)
 	{
 		X = posX;
 		Y = posY;
@@ -14,7 +14,7 @@ public class Obstacle {
 	
 	public boolean Collision(Point p)
 	{
-		if(p.GetX() >= X && p.GetX() <= X + width && p.GetY() >= Y && p.GetY() <= Y + height)
+		if(p.GetX() >= this.X && p.GetX() <= this.X + this.width && p.GetY() <= this.Y && p.GetY() >= this.Y - this.height)
 			return true;
 		return false;
 	}

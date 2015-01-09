@@ -18,7 +18,7 @@ public class Arrow {
 		shoot.start.SetY(_y);
 		shoot.SetAngle(angle);
 		shoot.SetForce(force);
-		trajectory = shoot.GetDrawTrajectory();
+		trajectory = shoot.GetTrajectory();
 
 	}
 
