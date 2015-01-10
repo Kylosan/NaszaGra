@@ -113,11 +113,11 @@ public class Population {
 		for(int i = 0; i< count; i++)
 		{	
 			if(Math.random()<prob)
-				this.Pop[i].SetMove(Math.random()*2-1);//ruch o (-1,1);
+				this.Pop[i].SetMove(Math.random()*10-5);//ruch o (-5,5);
 			if(Math.random()<prob)
-				this.Pop[i].SetAngle(this.Pop[i].GetAngle()+(Math.random()/5-0.1));//k¹t o (-0.1,0.1);
+				this.Pop[i].SetAngle(this.Pop[i].GetAngle()+(Math.random()-0.5));//k¹t o (-0.5,0.5);
 			if(Math.random()<prob)
-				this.Pop[i].SetForce(this.Pop[i].GetForce()+(Math.random()*10-1));//si³a o (-5,5);
+				this.Pop[i].SetForce(this.Pop[i].GetForce()+(Math.random()*10-5));//si³a o (-5,5);
 		}
 	}
 	
