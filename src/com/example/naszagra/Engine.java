@@ -71,6 +71,12 @@ public class Engine
 			for(int it = 0; it <1; it++)//Dopasowaæ iloœæ iteracji
 			{
 				ai.Iteration();
+//				Shot BS = new Shot();
+//				BS.Copy(ai.BestShot());
+//				double uuu = BS.Accuracy();
+//				ArrayList<Point> points = BS.GetTrajectory();
+//				int a = 0, b = 0;
+//				a = b+(int)uuu;
 			}
 		}
 		turn = true;
@@ -101,6 +107,10 @@ public class Engine
 				mpath.lineTo(terx, tery);
 		}
 		canvas.drawPath(mpath, tpaint);
+		
+		Paint text = new Paint();
+		text.setTextSize(40);
+		canvas.drawText(""+BS.Accuracy(), 1000, 1000, text);
 	}
 
 	private void AdvanceArrows() 
