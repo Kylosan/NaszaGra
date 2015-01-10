@@ -20,8 +20,9 @@ public class Engine
 	static float _lastTouchedX, _lastTouchedY;
 	static final float DO_NOT_DRAW_X = Float.MAX_VALUE;
 	static final float DO_NOT_DRAW_Y = Float.MAX_VALUE;
-	float Px, Py,arx5,ary5, arx,ary, powx=0;
+	float Px, Py,arx5,ary5, arx,ary, powx=100;
 	float terx=0,tery=0;
+	int indeks=10;
 	Point arr,arr5,terr;
 	Player player;
 	Player AI;
@@ -59,7 +60,7 @@ public class Engine
 	public void Update()
 	{
 		AdvanceArrows();
-		DrawPow(powx);
+		DrawPow();
 		AIgame();
 	}
 	
@@ -108,15 +109,16 @@ public class Engine
 		{
 			for(Arrow a : arrows)
 			{
-				for(int i=10;i<a.trajectory.size();i++)
+				if(indeks<a.trajectory.size())
 				{
-					arr5 = a.trajectory.get(i-10);
+					arr5 = a.trajectory.get(indeks-10);
 					arx5=(float) arr5.GetX();
 					ary5=(float) arr5.GetY();
-					arr= a.trajectory.get(i);
+					arr= a.trajectory.get(indeks);
 					arx=(float) arr.GetX();
 					ary=(float) arr.GetY();
 					a.Advance(ARROWS_COUNT,arx,ary);
+					indeks++;
 				}
 			}
 		}
@@ -214,21 +216,22 @@ public class Engine
 
 	public void powermeter(float p)
 	{
-		powx = p;
+		//powx=0;
+		//powx += p;
 	}
 	public void powreset()
 	{
-		powx=0;
+		//powx=0;
 	}
 	
 	public float getpower()
 	{
 		return powx;
 	}
-	private void DrawPow(float px) 
+	private void DrawPow() 
 	{
 		Canvas canvas=new Canvas();
-	    canvas.drawRect(0, AppConstants.SCREEN_HEIGHT-10, px, AppConstants.SCREEN_HEIGHT,paint);
+	    canvas.drawRect(0, AppConstants.SCREEN_HEIGHT-50, powx, AppConstants.SCREEN_HEIGHT,paint);
 	}
 
 	private void DrawAim(Canvas canvas) 
@@ -255,9 +258,7 @@ public class Engine
 
 	private void DrawBow(Canvas canvas) 
 	{
-		Bitmap _bow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetBow(),
-				bow.GetRotation());
-		
+		Bitmap _bow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetBow(),bow.GetRotation());
 		Rect rect = bow.GetRect((int)player.GetDrawX(), (int)player.GetDrawY(), _bow);
 		canvas.drawBitmap(_bow, null, rect, paint);
 	}
@@ -270,8 +271,9 @@ public class Engine
 		bow.SetRotation(bowRotation);
 	}
 
-	public void CreateNewArrow(int touchX, int touchY, float force) 
+	public void CreateNewArrow(float x, float y) 
 	{
+		indeks = 10;
 		synchronized (sync) 
 		{
 			arrows.add
@@ -281,7 +283,7 @@ public class Engine
 							bow.GetX(), 
 							bow.GetY(),
 							bow.GetRotation(), 
-							force
+							powx
 					)
 			);
 		}

@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
-import android.widget.TextView;
 
 public class Touching extends Activity {
 
-	TextView akcja0;
-	TextView dane0;
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -18,7 +15,6 @@ public class Touching extends Activity {
 	 AppConstants.Initialization(this.getApplicationContext());
      SurfaceView view = new TouchDraw(this, AppConstants.GetEngine());
      setContentView(view);
-
      getActionBar().hide();
  }
 
@@ -56,14 +52,7 @@ public class Touching extends Activity {
 		int x = (int)event.getX();
 		int y = (int)event.getY();
 		
-		if(x>0&&x<100 && y>0 && y<100)
-		{
-			AppConstants.GetEngine().PlayerPos(-1, 0);
-		}
-		else if(x>120&&x<200 && y>0 && y<100)
-		{
-			AppConstants.GetEngine().PlayerPos(1, 0);
-		}
+		
 		
 		if(GetIfTouchInTheZone(x, y))
 		{
@@ -93,16 +82,25 @@ public class Touching extends Activity {
 
 	private void OnActionDown(MotionEvent event) 
 	{
-		int x = (int)event.getX();
-		int y = (int)event.getY();
+		float x = event.getX();
+		float y = event.getY();
 		
-		if(x>0&&x<AppConstants.SCREEN_WIDTH && y>AppConstants.SCREEN_HEIGHT-50 && y<AppConstants.SCREEN_HEIGHT)
+		if(x>0&&x<100 && y>0 && y<100)
+		{
+			AppConstants.GetEngine().PlayerPos(-1, 0);
+		}
+		else if(x>120&&x<200 && y>0 && y<100)
+		{
+			AppConstants.GetEngine().PlayerPos(1, 0);
+		}
+		
+		else if(x>0&&x<AppConstants.SCREEN_WIDTH && y>AppConstants.SCREEN_HEIGHT-50 && y<AppConstants.SCREEN_HEIGHT)
 		{
 			AppConstants.GetEngine().powermeter(x);
 		}
 		else if(x>AppConstants.SCREEN_WIDTH-100&&x<AppConstants.SCREEN_WIDTH && y>0 && y<100)
 		{
-			AppConstants.GetEngine().CreateNewArrow(x,y, AppConstants.GetEngine().getpower());
+			AppConstants.GetEngine().CreateNewArrow(x,y);
 			AppConstants.GetEngine().powreset();
 			AppConstants.GetEngine().turn=false;
 		}

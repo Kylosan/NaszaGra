@@ -66,17 +66,17 @@ public class Bow {
 	
 	public Rect GetRect(int plX, int plY, Bitmap b) 
 	{
-		if(_rect == null)
-		{
+		//if(_rect == null)
+		//{
 			int left = plX;
 			int top = plY+20;
-			int bottom = top - GetHeight();
+			int bottom = top + GetHeight();
 			int right = left +GetWidth();
 			
 			SetX(left);
 			SetY(top);
 			_rect = new Rect( left , top, right, bottom);  
-		}
+		//}
 		
 		return _rect;
 	}
