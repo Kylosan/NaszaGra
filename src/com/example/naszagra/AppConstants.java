@@ -12,10 +12,7 @@ public class AppConstants {
 	
 	public static int SCREEN_WIDTH, 
 					  SCREEN_HEIGHT;
-	
-	/**
-	 * Initiates the applciation constants
-	 * */
+
 	public static void Initialization(Context context)  
 	{
 		_bitmapsBank = new BitmapBank(context.getResources());

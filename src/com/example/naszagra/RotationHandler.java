@@ -10,17 +10,6 @@ public class RotationHandler {
 	
 	public static final int TOLERANCE = 35;
 	
-	/**
-	 * Calculates cannon bitmap rotation
-	 * @param touch_x
-	 * 			x coordinates of the touch event
-	 * @param touch_y
-	 * 			y coordinates of ther touch event
-	 * @param cannon
-	 * 			cannon object
-	 * @return
-	 * 		new rotation value
-	 * */
 	public static float BowRotationByTouch(float touch_x, float touch_y, Bow bow)
 	{
 		float result = bow.GetRotation();
@@ -47,28 +36,12 @@ public class RotationHandler {
 		
 		return result;
 	}
-	/**
-	 * Determines whether the touch was on the left half of the screen
-	 * @param touch_x
-	 * 		x coordinate of the touch
-	 * @return
-	 * 		true if on the right side, else returns false
-	 * */
+
 	private static boolean CheckIsOnLeftSideScreen(float touch_x) 
 	{
 		return touch_x > AppConstants.SCREEN_WIDTH / 2;
 	}
-	/**
-	 * Determines whether the touch is in the relevant zone on the screen
-	 * @param touch_x
-	 * 		x coordinate of the touch event
-	 * @param touch_y
-	 * 		y coordinate of the touch event
- 	 * @param cannon
-	 * 			Cannon object
-	 * 
-	 * @return true if the touch is in the relevant zone
-	 * */
+
 	public static boolean CheckIfTouchIsInTheZone(float touch_x, float touch_y, Bow bow) 
 	{
 		return touch_y + TOLERANCE < bow.GetY();

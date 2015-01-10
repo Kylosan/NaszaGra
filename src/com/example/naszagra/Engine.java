@@ -141,7 +141,7 @@ public class Engine
 			Px += plaX;
 			bow.SetX((int) plaX);
 			bow.SetY((int) plaY);		
-			player.Move(Px, terrain.Height(Px));
+			player.Move(Px, terrain.Height(Px)+player.H);
 		}
 	}
 
@@ -246,13 +246,10 @@ public class Engine
 
 	private void DrawAim(Canvas canvas) 
 	{
-		//Doesn't draws on touch ACTION_UP event, only on ACTION_DOWN or ACTION_MOVE
-		if(_lastTouchedX != DO_NOT_DRAW_X
-				&& _lastTouchedY != DO_NOT_DRAW_Y)
-		{
+		
 			Bitmap bitmap = AppConstants.GetBitmapsBank().GetAim();
 			canvas.drawBitmap(bitmap, _lastTouchedX, _lastTouchedY, paint);
-		}
+		
 	}
 	private void DrawArrows(Canvas canvas) 
 	{
@@ -292,7 +289,7 @@ public class Engine
 					(
 							bow.GetX(), 
 							bow.GetY(),
-							bow.GetRotation(), 
+							(float) Math.toRadians(bow.GetRotation()), 
 							powx
 					)
 			);
