@@ -29,9 +29,9 @@ public class Terrain {
 		y = generator.nextInt(AppConstants.SCREEN_HEIGHT-300)+200;
 		Points[9] = new Point(x,y);
 		
-		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2-100) + 50;
+		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2-100) + 100;
 		Obstacles[0] = new Obstacle(x,Height(x),AppConstants.SCREEN_WIDTH/200,AppConstants.SCREEN_HEIGHT/5);
-		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2) + AppConstants.SCREEN_WIDTH/2-100;
+		x = generator.nextInt(AppConstants.SCREEN_WIDTH/2-100) + AppConstants.SCREEN_WIDTH/2+50;
 		Obstacles[1] = new Obstacle(x,Height(x),AppConstants.SCREEN_WIDTH/200,AppConstants.SCREEN_HEIGHT/5);
 	}
 	

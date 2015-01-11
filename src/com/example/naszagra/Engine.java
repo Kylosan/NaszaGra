@@ -67,16 +67,11 @@ public class Engine
 	{
 		if(turn==false)
 		{
-			for(int it = 0; it <1; it++)//Dopasowaæ iloœæ iteracji
-			{
+			ai.Update(player, AI);
+			for(int it = 0; it < ai.HowManyIt(); it++)
 				ai.Iteration();
-//				Shot BS = new Shot();
-//				BS.Copy(ai.BestShot());
-//				double uuu = BS.Accuracy();
-//				ArrayList<Point> points = BS.GetTrajectory();
-//				int a = 0, b = 0;
-//				a = b+(int)uuu;
-			}
+			if(ai.BestShot().GetHit()==1)
+				player.Damage(10);
 		}
 		turn = true;
 	}
@@ -107,9 +102,21 @@ public class Engine
 		}
 		canvas.drawPath(mpath, tpaint);
 		
+		paint.setColor(Color.RED);
+		int w = AppConstants.SCREEN_WIDTH;
+		canvas.drawRect((float)(w*0.3), (float)10, (float)(w*0.3)+player.health, (float)50, paint);
+		canvas.drawRect((float)(w*0.7), (float)10, (float)(w*0.7)+AI.health, (float)50, paint);
+
+		//Do wywalenia:
 		Paint text = new Paint();
 		text.setTextSize(40);
-		canvas.drawText(""+BS.Accuracy(), 1000, 1000, text);
+		canvas.drawText(""+BS.Accuracy()+ "     " + BS.GetHit() + "    " + ai.HowManyIt(), 500, 1000, text);
+		
+		paint.setColor(Color.GREEN);
+		canvas.drawCircle((float)player.GetX(), (float)player.GetY(), 5, paint);
+		canvas.drawCircle((float)player.GetX(), (float)player.GetDrawY(), 5, paint);
+		canvas.drawCircle((float)player.GetX()+player.W, (float)player.GetY(), 5, paint);
+		canvas.drawCircle((float)player.GetX()+player.W, (float)player.GetDrawY(), 5, paint);
 	}
 
 	private void AdvanceArrows() 
@@ -141,7 +148,11 @@ public class Engine
 			Px += plaX;
 			bow.SetX((int) plaX);
 			bow.SetY((int) plaY);		
+<<<<<<< HEAD
 			player.Move(Px, terrain.Height(Px)-player.H);
+=======
+			player.Move(Px, terrain.Height(Px));
+>>>>>>> origin/master
 		}
 	}
 
