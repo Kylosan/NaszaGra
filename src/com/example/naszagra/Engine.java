@@ -60,7 +60,6 @@ public class Engine
 	public void Update()
 	{
 		AdvanceArrows();
-		DrawPow();
 		AIgame();
 	}
 	
@@ -130,6 +129,7 @@ public class Engine
 					a.Advance(ARROWS_COUNT,arx,ary);
 					indeks++;
 				}
+				
 			}
 		}
 	}
@@ -141,7 +141,7 @@ public class Engine
 			Px += plaX;
 			bow.SetX((int) plaX);
 			bow.SetY((int) plaY);		
-			player.Move(Px, terrain.Height(Px)+player.H);
+			player.Move(Px, terrain.Height(Px)-player.H);
 		}
 	}
 
@@ -154,7 +154,8 @@ public class Engine
 		DrawArrows(canvas);
 		DrawAim(canvas);
 		DrawTerrain(canvas);
-		DrawTraj(canvas);
+		DrawPow(canvas);
+		//DrawTraj(canvas);
 	}
 	private void DrawPC(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
@@ -226,21 +227,21 @@ public class Engine
 
 	public void powermeter(float p)
 	{
-		//powx=0;
-		//powx += p;
+		powx=0;
+		powx = p;
 	}
 	public void powreset()
 	{
-		//powx=0;
+		powx=0;
 	}
 	
 	public float getpower()
 	{
-		return powx;
+		return powx*100/AppConstants.SCREEN_WIDTH;
 	}
-	private void DrawPow() 
+	private void DrawPow(Canvas canvas) 
 	{
-		Canvas canvas=new Canvas();
+
 	    canvas.drawRect(0, AppConstants.SCREEN_HEIGHT-50, powx, AppConstants.SCREEN_HEIGHT,paint);
 	}
 
@@ -280,6 +281,7 @@ public class Engine
 
 	public void CreateNewArrow(float x, float y) 
 	{
+		arrows.clear();
 		indeks = 10;
 		synchronized (sync) 
 		{
@@ -289,8 +291,8 @@ public class Engine
 					(
 							bow.GetX(), 
 							bow.GetY(),
-							(float) Math.toRadians(bow.GetRotation()), 
-							powx
+							(float) Math.toRadians(90-bow.GetRotation()), 
+							powx*100/AppConstants.SCREEN_WIDTH
 					)
 			);
 		}

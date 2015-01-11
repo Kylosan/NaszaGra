@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,12 +17,6 @@ public class MainActivity extends ListActivity {
 	private final int Pierszy = 0;
 	private final int Drugi = 1;
 	private final int Trzeci = 2;
-	private final int Czwarty = 3;
-	private final int Kolejny = 4;
-	private final int Ostatni = 5;
-	private final int Bubble = 6;
-	
-
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -35,33 +27,6 @@ public class MainActivity extends ListActivity {
 	}
 	
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-	@Override			//wybieranie z menu
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch(item.getItemId())
-		{
-			case R.id.lista_1:
-			{
-				//startActivity(new Intent(this, NowAktyw.class));
-				return true;
-			}
-			case R.id.lista_2:
-			{
-				Toast.makeText(this, R.string.s2, Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			default:
-			{
-				return super.onOptionsItemSelected(item);
-			}
-		}
-	}
 																	// Lista dotykania
 private class OnMainItemClickListener implements OnItemClickListener
 {
@@ -69,44 +34,22 @@ private class OnMainItemClickListener implements OnItemClickListener
 	{
 		switch (position)
 		{
-		case Pierszy:
-		{
-			//startActivity(new Intent(MainActivity.this, NowAktyw.class));
-			return;
-		}
-		case Drugi:
-		{
-			Toast t = Toast.makeText(MainActivity.this, R.string.s2, Toast.LENGTH_LONG);
-			t.show();
-			return;
-		}
-		case Trzeci:
-		{
-			Toast.makeText(MainActivity.this, R.string.s3, Toast.LENGTH_LONG).show();
-			return;
-		}
-		case Czwarty:
-		{
-			Toast.makeText(MainActivity.this, R.string.s4, Toast.LENGTH_LONG).show();
-			return;
-		}
-		case Kolejny:
-		{
-			Toast.makeText(MainActivity.this, R.string.s5, Toast.LENGTH_LONG).show();
-			
-			return;
-		}
-		case Ostatni:
-		{
-			Toast.makeText(MainActivity.this, R.string.Tadaa, Toast.LENGTH_LONG).show();
-			
-			return;
-		}
-		case Bubble:
-		{
-			startActivity(new Intent(MainActivity.this, Touching.class));
-			return;
-		}
+			case Pierszy:
+			{
+				startActivity(new Intent(MainActivity.this, Touching.class));
+				return;
+			}
+			case Drugi:
+			{
+				Toast t = Toast.makeText(MainActivity.this, R.string.s2, Toast.LENGTH_LONG);
+				t.show();
+				return;
+			}
+			case Trzeci:
+			{
+				Toast.makeText(MainActivity.this, R.string.s3, Toast.LENGTH_LONG).show();
+				return;
+			}
 			
 		}
 	}

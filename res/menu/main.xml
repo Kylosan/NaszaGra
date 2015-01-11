@@ -24,24 +24,7 @@
 		android:showAsAction="never"
         android:title="@string/s3">
     </item>
-    <item
-        android:id="@+id/lista_4"
-        android:orderInCategory="100"
-		android:showAsAction="never"
-        android:title="@string/s4">
-    </item>
-    <item
-        android:id="@+id/lista_5"
-        android:orderInCategory="100"
-		android:showAsAction="never"
-        android:title="@string/s5">
-    </item>
-   <item
-        android:id="@+id/lista_6"
-        android:orderInCategory="100"
-		android:showAsAction="never"
-        android:title="@string/s6">
-    </item> 
+ 
    
 
 </menu>

@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 public class Arrow {
 	public ArrayList<Point> trajectory;
-	double _x, _y,_deltaX, _deltaY;
+	double _x, _y;
 
 	/**
-	 * Initiate the x and y parameters to Cannon x and y coordinates
+	 * Initiate the x and y parameters to bow x and y coordinates
 	 * */
 	public Arrow(float bow_x, float bow_y, float angle, float force)
 	{
 		Shot shoot = new Shot();
 		_x = bow_x;
 		_y = bow_y;
+		
 		shoot.start.SetX(_x);
 		shoot.start.SetY(_y);
 		shoot.SetAngle(angle);

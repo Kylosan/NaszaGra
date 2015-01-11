@@ -26,6 +26,7 @@ public class RotationHandler {
 			}
 			else
 			{
+				
 				float Opposite = bow.GetX() - touch_x;
 				float Adjacent  = bow.GetY() - touch_y;
 				

@@ -28,10 +28,6 @@
             android:name=".Touching"
             android:label="@string/title_activity_touching" >
         </activity>
-        <activity
-            android:name=".DrawActivity"
-            android:label="@string/title_activity_draw" >
-        </activity>
     </application>
 
 </manifest>

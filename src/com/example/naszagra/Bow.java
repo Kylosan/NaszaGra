@@ -69,7 +69,7 @@ public class Bow {
 		//if(_rect == null)
 		//{
 			int left = plX;
-			int top = plY+20;
+			int top = plY+10;
 			int bottom = top + GetHeight();
 			int right = left +GetWidth();
 			

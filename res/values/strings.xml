@@ -4,54 +4,24 @@
     <string name="app_name">Game</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="Pierszy">Noting</string>
-    <string name="Drugi">Noting</string>
-    <string name="Trzeci">Noting</string>
-    <string name="Czwarty">Noting</string>
-    <string name="Kolejny">canvas figury</string>
-    <string name="Ostatni">Noting</string>
-    <string name="Bubble">Tu jest aktywnosc rysowania!</string>
-    <string name="Tadaa">Bąąąąbeleeek!!!</string>
+    <string name="Pierszy">Graj</string>
+    <string name="Drugi">Instrukcja</string>
+    <string name="Trzeci">Autorzy</string>
 
-    <string name="draw_menu1">Koło</string>
-    <string name="draw_menu2">Łamana</string>
-    <string name="draw_menu3">Krzywa</string>
-    <string name="draw_menu4">Prostokąt</string>
-    <string name="draw_menu5">Text</string>
-    
+
     <string-array name="mojalista">
         <item>@string/Pierszy</item>
         <item>@string/Drugi</item>
         <item>@string/Trzeci</item>
-        <item>@string/Czwarty</item>
-        <item>@string/Kolejny</item>
-        <item>@string/Ostatni</item>
-        <item>@string/Bubble</item>
     </string-array>
 
     <string name="s1">Ein!!!</string>
     <string name="s2">Zwei!!!</string>
     <string name="s3">Drei!!!</string>
-    <string name="s4">Vier!!!</string>
-    <string name="s5">Fuuuufiiiiik xD</string>
-    <string name="s6">Seeeggzzzzy</string>
     <string name="dlexit">Koniec</string>
-    <string name="dlpos">Ja!</string>
-    <string name="dlneg">Niyy!!!</string>
-    <string name="dlask">Na pewno konieeec?</string>
-    <string name="title_activity_now_aktyw">NowAktyw</string>
-    <string name="title_activity_draw">Draw</string>
-    <string name="change_time">zmiana czasa</string>
-    <string name="timeview">Tu czas</string>
-    <string name="timebut">Ustaw czas</string>
-    <string name="title_activity_macanie">Macanie</string>
-    <string name="touch_action1">Palec 1: </string>
-    <string name="touch_action2">Palec 2: </string>
-    <string name="touch_action3">Palec 3: </string>
-    <string name="touch_action4">Palec 4: </string>
-    <string name="touch_coords">x,y:</string>
-    <string name="touch_XY">%1$.2f , %2$.2f</string>
-    <string name="touch_down">Down: %1$d %2$d</string>
+    <string name="dlpos">Tak</string>
+    <string name="dlneg">Nie</string>
+    <string name="dlask">Na pewno?</string>
     <string name="title_activity_touching">Touching</string>
 
 </resources>

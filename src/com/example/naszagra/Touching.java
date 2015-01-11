@@ -102,9 +102,10 @@ public class Touching extends Activity {
 		{
 			AppConstants.GetEngine().CreateNewArrow(x,y);
 			AppConstants.GetEngine().powreset();
+			AppConstants.GetEngine().player.GetShot().GetHit();
 			AppConstants.GetEngine().turn=false;
 		}
-		 	AppConstants.GetEngine().SetLastTouch(event.getX(), event.getY());
+		 	//AppConstants.GetEngine().SetLastTouch(event.getX(), event.getY());
 	}
 
 }

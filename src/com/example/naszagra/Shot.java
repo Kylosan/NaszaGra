@@ -31,9 +31,12 @@ public class Shot {
 	public Shot() {
 		start = new Point();
 		target = new Point();
-		terrain = new Terrain();
-		force = 0;
-		angle = 0;
+		terrain = AppConstants.GetEngine().terrain;
+		if(AppConstants.GetEngine()._lastTouchedX>start.GetX())
+			direction=1;
+		else
+			direction =-1;
+		
 		g = 9.81;
 	}
 
@@ -53,28 +56,28 @@ public class Shot {
 		}
 		return traj; 
 	}
-	
-//	public double Accuracy()
-//	{
-//		//tworzy dyskretn¹ trajektoriê lotu strza³y i sprawdza jak blisko celu ona przeleci
-//		double min = Double.POSITIVE_INFINITY, t = 0, dist = Double.POSITIVE_INFINITY;
-//		Point p = new Point(start.GetX(), start.GetY()- AppConstants.SCREEN_HEIGHT/32);
-//		while(!terrain.Collision(p))
-//		{
-//			if(target.GetX() >= p.GetX() && target.GetX() <= p.GetX() + 30 && target.GetY() >= p.GetY() && target.GetY() <= p.GetY() + 70)
-//				hit = 1;
-//			else
-//				hit = 0;
-//
-//			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
-//			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
-//			dist = Math.sqrt(Math.pow((p.GetX()-target.GetX()), 2)+Math.pow((p.GetY()-target.GetY()), 2));
-//			if(dist<min)
-//				min = dist;
-//			t+=0.01;
-//		}
-//		return min;
-//	}
+/*
+	public double Accuracy()
+	{
+		//tworzy dyskretn¹ trajektoriê lotu strza³y i sprawdza jak blisko celu ona przeleci
+		double min = Double.POSITIVE_INFINITY, t = 0, dist = Double.POSITIVE_INFINITY;
+		Point p = new Point(start.GetX(), start.GetY()- AppConstants.SCREEN_HEIGHT/32);
+		while(!terrain.Collision(p))
+		{
+			if(target.GetX() >= p.GetX() && target.GetX() <= p.GetX() + 30 && target.GetY() >= p.GetY() && target.GetY() <= p.GetY() + 70)
+				hit = 1;
+			else
+				hit = 0;
+
+			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
+			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
+			dist = Math.sqrt(Math.pow((p.GetX()-target.GetX()), 2)+Math.pow((p.GetY()-target.GetY()), 2));
+			if(dist<min)
+				min = dist;
+			t+=0.01;
+		}
+		return min;
+	}*/
 	
 	private double Dist(Point x, Point y)
 	{
@@ -186,12 +189,12 @@ public class Shot {
 	{
 		return angle;
 	}
-	
+
 	public int GetHit()
 	{
 		return hit;
 	}
-	
+
 	public void SetAngle(double a)
 	{
 		angle = a;
