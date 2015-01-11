@@ -112,8 +112,8 @@ public class Population {
 		//Dla zadanego prawdopodobieñstwa mutacji zmieniamy o losow¹ wartoœæ si³ê, k¹t i wspó³rzêdn¹ X
 		for(int i = 0; i< count; i++)
 		{	
-			if(Math.random()<prob)
-				this.Pop[i].SetMove(Math.random()*10-5);//ruch o (-5,5);
+			//if(Math.random()<prob)
+			//	this.Pop[i].SetMove(Math.random()*10-5);//ruch o (-5,5);
 			if(Math.random()<prob)
 				this.Pop[i].SetAngle(this.Pop[i].GetAngle()+(Math.random()-0.5));//k¹t o (-0.5,0.5);
 			if(Math.random()<prob)
@@ -126,9 +126,9 @@ public class Population {
 		this.Pop[0].Copy(P.BestShot());
 	}
 
-	public void SetPlayersPosition(Point player, Point ai) 
+	public void SetPlayersPosition(Player player, Player ai) 
 	{
-		for(int i = 1; i< count; i++)
+		for(int i = 0; i< count; i++)
 			this.Pop[i].SetPlayersPosition(player, ai);
 	}
 	

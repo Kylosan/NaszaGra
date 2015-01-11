@@ -4,7 +4,8 @@ package com.example.naszagra;
 public class AlgGen {
 	
 	private Population P, T;
-	private int count;	
+	private int count, it;	
+	private double prevAcc;
 	
 	AlgGen(int c, Player player, Player AIplayer, Terrain ter)
 	{
@@ -13,6 +14,8 @@ public class AlgGen {
 		count = c;
 		P = new Population(count, AIplayer.pos, player.pos, ter);
 		T = new Population(count, AIplayer.pos, player.pos, ter);
+		prevAcc = 9999999;
+		it=0;
 		P.Rate();
 		P.Probability();
 	}
@@ -26,6 +29,12 @@ public class AlgGen {
 		P.Copy(T);
 		P.Rate();
 		P.Probability();
+		
+		if(prevAcc == this.BestShot().Accuracy())
+			it++;
+		else
+			it=0;
+		prevAcc = this.BestShot().Accuracy();
 	}
 	
 	public Shot BestShot()
@@ -33,10 +42,18 @@ public class AlgGen {
 		return P.BestShot();
 	}
 	
-	public void Update(Point player, Point ai)
+	public void Update(Player player, Player ai)
 	{//Aktualizuje pozycjê graczy
 		P.SetPlayersPosition(player, ai);
 		P.Rate();
 		P.Probability();
+	}
+	
+	public int HowManyIt()
+	{
+		if(it<3)
+			return 1;
+		else
+			return 5;
 	}
 }

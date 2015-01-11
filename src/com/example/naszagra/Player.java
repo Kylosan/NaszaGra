@@ -58,7 +58,11 @@ public class Player {
 	{
 		return shot;
 	}
-
+	
+	public void Damage(int c)
+	{
+		health-=c;
+	}
 	public void Copy(Player p) 
 	{
 		this.pos.Copy(p.pos);
