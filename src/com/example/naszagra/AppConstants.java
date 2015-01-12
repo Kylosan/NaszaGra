@@ -15,8 +15,9 @@ public class AppConstants {
 
 	public static void Initialization(Context context)  
 	{
-		_bitmapsBank = new BitmapBank(context.getResources());
+
 	    SetScreenSize(context); 
+		_bitmapsBank = new BitmapBank(context.getResources());
 	    _engine = new Engine();
 	}
 

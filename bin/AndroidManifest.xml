@@ -26,7 +26,8 @@
         <activity
             android:screenOrientation="landscape"
             android:name=".Touching"
-            android:label="@string/title_activity_touching" >
+            android:label="@string/title_activity_touching" 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
     </application>
 

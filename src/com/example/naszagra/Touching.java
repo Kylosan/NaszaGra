@@ -15,7 +15,7 @@ public class Touching extends Activity {
 	 AppConstants.Initialization(this.getApplicationContext());
      SurfaceView view = new TouchDraw(this, AppConstants.GetEngine());
      setContentView(view);
-     getActionBar().hide();
+     //getActionBar().hide();
  }
 
 	@Override
@@ -87,11 +87,11 @@ public class Touching extends Activity {
 		
 		if(x>0&&x<100 && y>0 && y<100)
 		{
-			AppConstants.GetEngine().PlayerPos(-1, 0);
+			AppConstants.GetEngine().PlayerPos(-3, 0);
 		}
 		else if(x>120&&x<200 && y>0 && y<100)
 		{
-			AppConstants.GetEngine().PlayerPos(1, 0);
+			AppConstants.GetEngine().PlayerPos(3, 0);
 		}
 		
 		else if(x>0&&x<AppConstants.SCREEN_WIDTH && y>AppConstants.SCREEN_HEIGHT-50 && y<AppConstants.SCREEN_HEIGHT)
@@ -100,9 +100,9 @@ public class Touching extends Activity {
 		}
 		else if(x>AppConstants.SCREEN_WIDTH-100&&x<AppConstants.SCREEN_WIDTH && y>0 && y<100)
 		{
-			AppConstants.GetEngine().CreateNewArrow(x,y);
+			AppConstants.GetEngine().CreateNewArrow();
 			AppConstants.GetEngine().powreset();
-			AppConstants.GetEngine().player.GetShot().GetHit();
+			//AppConstants.GetEngine().player.GetShot().GetHit();
 			AppConstants.GetEngine().turn=false;
 		}
 		 	//AppConstants.GetEngine().SetLastTouch(event.getX(), event.getY());

@@ -16,7 +16,7 @@ public class Bow {
 	static int _height;
 	static float _rotation;
 	static float _x, _y;
-	static Rect _rect;
+	static Rect _rect, _irect;
 	
 
 	public void SetX(int x)
@@ -63,13 +63,25 @@ public class Bow {
 	{
 		_rotation = BowRotationByTouch;
 	}
+	public Rect iRect(int plX, int plY, Bitmap b)
+	{
+		int left = plX-GetWidth()/2;
+		int top = plY;
+		int bottom = top + GetHeight();
+		int right = left +GetWidth();
+		
+		SetX(left);
+		SetY(top);
+		_irect = new Rect( left , top, right, bottom);  
+		return _irect;
+	}
 	
 	public Rect GetRect(int plX, int plY, Bitmap b) 
 	{
 		//if(_rect == null)
 		//{
-			int left = plX;
-			int top = plY+10;
+			int left = plX-10;
+			int top = plY;
 			int bottom = top + GetHeight();
 			int right = left +GetWidth();
 			

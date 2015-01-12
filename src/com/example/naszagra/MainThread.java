@@ -14,7 +14,7 @@ public class MainThread extends Thread {
     long _sleepTime;
     
     //Delay amount between screen refreshes
-    final long  DELAY = 4;
+    final long  DELAY = 2;
     
     boolean  _isOnRun;
 

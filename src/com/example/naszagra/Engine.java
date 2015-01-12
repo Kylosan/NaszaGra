@@ -14,7 +14,6 @@ import android.graphics.Rect;
 public class Engine 
 {
 	static final int ARROWS_COUNT = 1; 
-	static Bow bow;
 	static List<Arrow> arrows;
 	static final Object sync = new Object();
 	static float _lastTouchedX, _lastTouchedY;
@@ -22,46 +21,47 @@ public class Engine
 	static final float DO_NOT_DRAW_Y = Float.MAX_VALUE;
 	float Px, Py,arx5,ary5, arx,ary, powx=100;
 	float terx=0,tery=0;
-	int indeks=10;
+	int indeks=10,i;
+	Bow bow,ibow;
 	Point arr,arr5,terr;
-	Player player;
-	Player AI;
+	Player player,AI;
 	Terrain terrain;
 	Path mpath = new Path();
 	Boolean turn;
 	AlgGen ai;
-	Paint paint;
-	Paint tpaint;
+	Paint paint,tpaint;
 	
 	public Engine()
 	{
+		terrain = new Terrain();
 		AI = new Player(1,1);
 		player = new Player(1,1);
 		arrows = new LinkedList<Arrow>();
 		paint = new Paint();
 		tpaint = new Paint();
 		bow = new Bow();
-		terrain = new Terrain();
+		ibow = new Bow();
 		terr=new Point();
 		
 		AI.Move(AppConstants.SCREEN_WIDTH-AI.W*2, terrain.Height(AppConstants.SCREEN_WIDTH-AI.W*2));
-		player.Move(player.W*2, terrain.Height(player.W*2));//TO MUSI BYÆ PRZD STWORZENIEM AI
+		player.Move(player.W*2, terrain.Height(player.W*2));//TO MUSI BYÆ PRZD STWORZENIEM ai
 		
 		ai = new AlgGen(20, player, AI, terrain);
 		start();
 	}
 	
 	private void start() {
-		//AI.Move(AppConstants.SCREEN_WIDTH-AI.W*2, terrain.Height(AppConstants.SCREEN_WIDTH-AI.W*2));
-		//player.Move(player.W*2, terrain.Height(player.W*2));
-		turn=false;//true;
+		
+		turn=true;
 	}
 
 	public void Update()
 	{
 		AdvanceArrows();
 		AIgame();
+
 	}
+	
 	
 	private void AIgame() 
 	{
@@ -70,6 +70,7 @@ public class Engine
 			ai.Update(player, AI);
 			for(int it = 0; it < ai.HowManyIt(); it++)
 				ai.Iteration();
+			//IArrow();
 			if(ai.BestShot().GetHit()==1)
 				player.Damage(10);
 		}
@@ -107,7 +108,7 @@ public class Engine
 		canvas.drawRect((float)(w*0.3), (float)10, (float)(w*0.3)+player.health, (float)50, paint);
 		canvas.drawRect((float)(w*0.7), (float)10, (float)(w*0.7)+AI.health, (float)50, paint);
 
-		//Do wywalenia:
+		/*
 		Paint text = new Paint();
 		text.setTextSize(40);
 		canvas.drawText(""+BS.Accuracy()+ "     " + BS.GetHit() + "    " + ai.HowManyIt(), 500, 1000, text);
@@ -116,7 +117,7 @@ public class Engine
 		canvas.drawCircle((float)player.GetX(), (float)player.GetY(), 5, paint);
 		canvas.drawCircle((float)player.GetX(), (float)player.GetDrawY(), 5, paint);
 		canvas.drawCircle((float)player.GetX()+player.W, (float)player.GetY(), 5, paint);
-		canvas.drawCircle((float)player.GetX()+player.W, (float)player.GetDrawY(), 5, paint);
+		canvas.drawCircle((float)player.GetX()+player.W, (float)player.GetDrawY(), 5, paint);*/
 	}
 
 	private void AdvanceArrows() 
@@ -135,9 +136,15 @@ public class Engine
 					ary=(float) arr.GetY();
 					a.Advance(ARROWS_COUNT,arx,ary);
 					indeks++;
-				}
+					
+				}	
+				
+					
+					
+					
 				
 			}
+			
 		}
 	}
 	
@@ -148,11 +155,9 @@ public class Engine
 			Px += plaX;
 			bow.SetX((int) plaX);
 			bow.SetY((int) plaY);		
-<<<<<<< HEAD
-			player.Move(Px, terrain.Height(Px)-player.H);
-=======
+
 			player.Move(Px, terrain.Height(Px));
->>>>>>> origin/master
+
 		}
 	}
 
@@ -161,16 +166,19 @@ public class Engine
 		DrawControls(canvas);
 		DrawPlayer(canvas);
 		DrawPC(canvas);
+		DrawiBow(canvas);
 		DrawBow(canvas);
 		DrawArrows(canvas);
 		DrawAim(canvas);
 		DrawTerrain(canvas);
 		DrawPow(canvas);
-		//DrawTraj(canvas);
+		DrawTraj(canvas);
 	}
+	
+	
 	private void DrawPC(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
-		canvas.drawBitmap(_player, (float)player.GetDrawX(), (float)player.GetDrawY(), paint);
+		canvas.drawBitmap(_player, (float)AI.GetDrawX(), (float)AI.GetDrawY(), paint);
 	}
 
 	private void DrawTerrain(Canvas canvas) 
@@ -222,7 +230,7 @@ public class Engine
 
 	private void DrawPlayer(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
-		canvas.drawBitmap(_player, (float)AI.GetDrawX(), (float)AI.GetDrawY(), paint);
+		canvas.drawBitmap(_player, (float)player.GetDrawX(), (float)player.GetDrawY(), paint);
 		
 	}
 
@@ -248,7 +256,7 @@ public class Engine
 	
 	public float getpower()
 	{
-		return powx*100/AppConstants.SCREEN_WIDTH;
+		return powx;
 	}
 	private void DrawPow(Canvas canvas) 
 	{
@@ -260,7 +268,7 @@ public class Engine
 	{
 		
 			Bitmap bitmap = AppConstants.GetBitmapsBank().GetAim();
-			canvas.drawBitmap(bitmap, _lastTouchedX, _lastTouchedY, paint);
+			canvas.drawBitmap(bitmap, _lastTouchedX-(AppConstants.GetBitmapsBank()._aim.getWidth()/2), _lastTouchedY-(AppConstants.GetBitmapsBank()._aim.getHeight()/2), paint);
 		
 	}
 	private void DrawArrows(Canvas canvas) 
@@ -278,19 +286,27 @@ public class Engine
 	private void DrawBow(Canvas canvas) 
 	{
 		Bitmap _bow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetBow(),bow.GetRotation());
+		//
 		Rect rect = bow.GetRect((int)player.GetDrawX(), (int)player.GetDrawY(), _bow);
+		//
 		canvas.drawBitmap(_bow, null, rect, paint);
+		//
+	}
+	private void DrawiBow(Canvas canvas)
+	{
+		Bitmap _ibow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetiBow(),(float)Math.toDegrees(ai.BestShot().GetAngle()));
+		Rect irect = ibow.iRect((int)AI.GetDrawX(), (int)AI.GetDrawY(), _ibow);
+		canvas.drawBitmap(_ibow, null, irect, paint);
 	}
 	
 	public void SetBowRotaion(int touch_x, int touch_y) 
 	{
-		float bowRotation = RotationHandler
-				.BowRotationByTouch(touch_x, touch_y, bow);
+		float bowRotation = RotationHandler.BowRotationByTouch(touch_x, touch_y, bow);
 		
 		bow.SetRotation(bowRotation);
 	}
 
-	public void CreateNewArrow(float x, float y) 
+	public void CreateNewArrow() 
 	{
 		arrows.clear();
 		indeks = 10;
@@ -303,11 +319,36 @@ public class Engine
 							bow.GetX(), 
 							bow.GetY(),
 							(float) Math.toRadians(90-bow.GetRotation()), 
-							powx*100/AppConstants.SCREEN_WIDTH
+							powx/8
 					)
 			);
 		}
 	}
+	
+	public void IArrow()
+	{
+		arrows.clear();
+		indeks = 10;
+		synchronized (sync) 
+		{
+			arrows.add
+			(
+					new Arrow
+					(
+							ibow.GetX(), 
+							ibow.GetY(),
+							(float) Math.toRadians(ai.BestShot().GetAngle()), 
+							(float) ai.BestShot().GetForce()*2
+					)
+			);
+		}
+	}
+	
+	public Bow getiBow()
+	{
+		return ibow;
+	}
+	
 	public Bow getBow() 
 	{
 		return bow;
