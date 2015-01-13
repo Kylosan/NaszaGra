@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -30,9 +31,11 @@ public class Engine
 	Boolean turn;
 	AlgGen ai;
 	Paint paint,tpaint;
+	//Touching touch;
 	
 	public Engine()
 	{
+		//touch = new Touching();
 		terrain = new Terrain();
 		AI = new Player(1,1);
 		player = new Player(1,1);
@@ -59,10 +62,23 @@ public class Engine
 	{
 		AdvanceArrows();
 		AIgame();
-
+		HealthCheck();
 	}
 	
 	
+	private void HealthCheck() {
+		if(player.health==0)
+		{
+			//touch.getlost();
+			//((Touching) context).finish();
+		}
+		else if(AI.health==0)
+		{
+			//touch.getwin();
+		}
+		
+	}
+
 	private void AIgame() 
 	{
 		if(turn==false)
@@ -70,7 +86,7 @@ public class Engine
 			ai.Update(player, AI);
 			for(int it = 0; it < ai.HowManyIt(); it++)
 				ai.Iteration();
-			//IArrow();
+			IArrow();
 			if(ai.BestShot().GetHit()==1)
 				player.Damage(10);
 		}
@@ -292,7 +308,7 @@ public class Engine
 		canvas.drawBitmap(_bow, null, rect, paint);
 		//
 	}
-	private void DrawiBow(Canvas canvas)
+	private void DrawiBow(Canvas canvas) //Sprawdz kat obrotu luku ai, nie wiem czy jest dobrze ale watpie.
 	{
 		Bitmap _ibow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetiBow(),(float)Math.toDegrees(ai.BestShot().GetAngle()));
 		Rect irect = ibow.iRect((int)AI.GetDrawX(), (int)AI.GetDrawY(), _ibow);
@@ -337,8 +353,8 @@ public class Engine
 					(
 							ibow.GetX(), 
 							ibow.GetY(),
-							(float) Math.toRadians(ai.BestShot().GetAngle()), 
-							(float) ai.BestShot().GetForce()*2
+							(float) Math.toRadians(ai.BestShot().GetAngle()), //Zobacz czy to dobry kat. Zwroc uwage na RotationHandlera jak tam jest. To musi przekazywac to samo
+							(float) ai.BestShot().GetForce()*2 //Sprawdz jak to jest z ta sila bo strzala ma inna trajektorie niz to czerwone co rysujesz
 					)
 			);
 		}

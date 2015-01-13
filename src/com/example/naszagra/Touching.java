@@ -1,13 +1,19 @@
 package com.example.naszagra;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 public class Touching extends Activity {
 
-    @Override
+    private static final int DIALOG_WIN = 1;
+	private static final int DIALOG_LOST = 0;
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
 	 super.onCreate(savedInstanceState);
@@ -107,5 +113,54 @@ public class Touching extends Activity {
 		}
 		 	//AppConstants.GetEngine().SetLastTouch(event.getX(), event.getY());
 	}
-
+	@Override
+	protected Dialog onCreateDialog(int id)
+	{
+		
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
+		switch(id)
+		{
+		case DIALOG_LOST:
+			builder.setTitle(R.string.dialresult);
+			builder.setIcon(android.R.drawable.ic_dialog_alert);
+			builder.setMessage(R.string.Lost);
+			builder.setNeutralButton(R.string.dlpos, new DialogInterface.OnClickListener()
+			{
+				
+				@Override
+				public void onClick(DialogInterface dialog, int arg1)
+				{
+					finish();
+				}
+			});
+		case DIALOG_WIN:
+			builder.setTitle(R.string.dialresult);
+			builder.setIcon(android.R.drawable.ic_dialog_alert);
+			builder.setMessage(R.string.Win);
+			builder.setNeutralButton(R.string.dlpos, new DialogInterface.OnClickListener()
+			{
+				
+				@Override
+				public void onClick(DialogInterface dialog, int arg1)
+				{
+					finish();
+				}
+			});
+			
+			break;
+		}
+		return builder.create();
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void getwin()
+	{
+		showDialog(DIALOG_WIN);
+	}
+	@SuppressWarnings("deprecation")
+	public void getlost()
+	{
+		showDialog(DIALOG_LOST);
+	}
 }

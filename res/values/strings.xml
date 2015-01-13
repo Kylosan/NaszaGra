@@ -7,6 +7,10 @@
     <string name="Pierszy">Graj</string>
     <string name="Drugi">Instrukcja</string>
     <string name="Trzeci">Autorzy</string>
+    <string name="Lost">Przegałeś!</string>
+    <string name="Win">Wygrałeś!</string>
+    <string name="dialresult">Wynik</string>
+    <string name="Dialbut">OK</string>
 
 
     <string-array name="mojalista">
