@@ -22,7 +22,7 @@ public class Engine
 	static final float DO_NOT_DRAW_Y = Float.MAX_VALUE;
 	float Px, Py,arx5,ary5, arx,ary, powx=100;
 	float terx=0,tery=0;
-	int indeks=10,i;
+	int indeks=10,i, arrowHit=0;
 	Bow bow,ibow;
 	Point arr,arr5,terr;
 	Player player,AI;
@@ -44,7 +44,7 @@ public class Engine
 		tpaint = new Paint();
 		bow = new Bow();
 		ibow = new Bow();
-		terr=new Point();
+		terr = new Point();
 		
 		AI.Move(AppConstants.SCREEN_WIDTH-AI.W*2, terrain.Height(AppConstants.SCREEN_WIDTH-AI.W*2));
 		player.Move(player.W*2, terrain.Height(player.W*2));//TO MUSI BYÆ PRZD STWORZENIEM ai
@@ -87,10 +87,12 @@ public class Engine
 			for(int it = 0; it < ai.HowManyIt(); it++)
 				ai.Iteration();
 			IArrow();
+			
 			if(ai.BestShot().GetHit()==1)
 				player.Damage(10);
+			turn = true;
 		}
-		turn = true;
+		
 	}
 
 	private void DrawTraj(Canvas canvas)//tymczasowe 
@@ -118,26 +120,37 @@ public class Engine
 				mpath.lineTo(terx, tery);
 		}
 		canvas.drawPath(mpath, tpaint);
-		
+	}
+	
+	public void DrawHealth(Canvas canvas)
+	{
 		paint.setColor(Color.RED);
 		int w = AppConstants.SCREEN_WIDTH;
-		canvas.drawRect((float)(w*0.3), (float)10, (float)(w*0.3)+player.health, (float)50, paint);
-		canvas.drawRect((float)(w*0.7), (float)10, (float)(w*0.7)+AI.health, (float)50, paint);
-
-		/*
-		Paint text = new Paint();
-		text.setTextSize(40);
-		canvas.drawText(""+BS.Accuracy()+ "     " + BS.GetHit() + "    " + ai.HowManyIt(), 500, 1000, text);
 		
-		paint.setColor(Color.GREEN);
-		canvas.drawCircle((float)player.GetX(), (float)player.GetY(), 5, paint);
-		canvas.drawCircle((float)player.GetX(), (float)player.GetDrawY(), 5, paint);
-		canvas.drawCircle((float)player.GetX()+player.W, (float)player.GetY(), 5, paint);
-		canvas.drawCircle((float)player.GetX()+player.W, (float)player.GetDrawY(), 5, paint);*/
+		mpath = new Path();
+		mpath.moveTo((float)(w*0.3),10);
+		mpath.lineTo((float)(w*0.3)+100, 10);
+		mpath.lineTo((float)(w*0.3)+100, 50);
+		mpath.lineTo((float)(w*0.3), 50);
+		mpath.lineTo((float)(w*0.3), 10);
+		canvas.drawPath(mpath, tpaint);
+		canvas.drawRect((float)(w*0.3), (float)10, (float)(w*0.3)+player.health, (float)50, paint);
+		
+		mpath = new Path();
+		mpath.moveTo((float)(w*0.7),10);
+		mpath.lineTo((float)(w*0.7)+100, 10);
+		mpath.lineTo((float)(w*0.7)+100, 50);
+		mpath.lineTo((float)(w*0.7), 50);
+		mpath.lineTo((float)(w*0.7), 10);
+		canvas.drawPath(mpath, tpaint);
+		canvas.drawRect((float)(w*0.7), (float)10, (float)(w*0.7)+AI.health, (float)50, paint);
 	}
 
 	private void AdvanceArrows() 
 	{	
+		arrowHit = 0;
+		Boolean t = turn;
+		
 		synchronized (sync) 
 		{
 			for(Arrow a : arrows)
@@ -145,22 +158,19 @@ public class Engine
 				if(indeks<a.trajectory.size())
 				{
 					arr5 = a.trajectory.get(indeks-10);
+					arrowHit = a.GetHit();
 					arx5=(float) arr5.GetX();
 					ary5=(float) arr5.GetY();
 					arr= a.trajectory.get(indeks);
 					arx=(float) arr.GetX();
 					ary=(float) arr.GetY();
 					a.Advance(ARROWS_COUNT,arx,ary);
-					indeks++;
-					
-				}	
-				
-					
-					
-					
-				
+					indeks+=10;
+					turn = true;
+				}
+				else
+					turn = false;//TO JEST Z£E
 			}
-			
 		}
 	}
 	
@@ -188,7 +198,8 @@ public class Engine
 		DrawAim(canvas);
 		DrawTerrain(canvas);
 		DrawPow(canvas);
-		DrawTraj(canvas);
+		//DrawTraj(canvas);
+		DrawHealth(canvas);
 	}
 	
 	
@@ -295,7 +306,6 @@ public class Engine
 				paint.setStrokeWidth(5);
 				paint.setColor(Color.BLUE);
 				canvas.drawLine(arx5, ary5, arx, ary, paint);
-			
 		}
 	}
 
@@ -308,9 +318,9 @@ public class Engine
 		canvas.drawBitmap(_bow, null, rect, paint);
 		//
 	}
-	private void DrawiBow(Canvas canvas) //Sprawdz kat obrotu luku ai, nie wiem czy jest dobrze ale watpie.
+	private void DrawiBow(Canvas canvas) 
 	{
-		Bitmap _ibow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetiBow(),(float)Math.toDegrees(ai.BestShot().GetAngle()));
+		Bitmap _ibow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetiBow(),(float)Math.toDegrees(ai.BestShot().GetAngle())-90);
 		Rect irect = ibow.iRect((int)AI.GetDrawX(), (int)AI.GetDrawY(), _ibow);
 		canvas.drawBitmap(_ibow, null, irect, paint);
 	}
@@ -332,8 +342,9 @@ public class Engine
 			(
 					new Arrow
 					(
-							bow.GetX(), 
-							bow.GetY(),
+							new Point(bow.GetX()+player.W,bow.GetY()+player.H*0.7),
+							AI.pos,
+							terrain,
 							(float) Math.toRadians(90-bow.GetRotation()), 
 							powx/8
 					)
@@ -351,10 +362,11 @@ public class Engine
 			(
 					new Arrow
 					(
-							ibow.GetX(), 
-							ibow.GetY(),
-							(float) Math.toRadians(ai.BestShot().GetAngle()), //Zobacz czy to dobry kat. Zwroc uwage na RotationHandlera jak tam jest. To musi przekazywac to samo
-							(float) ai.BestShot().GetForce()*2 //Sprawdz jak to jest z ta sila bo strzala ma inna trajektorie niz to czerwone co rysujesz
+							AI.pos,
+							player.pos,
+							terrain,
+							(float) ai.BestShot().GetAngle(), 
+							(float) ai.BestShot().GetForce()
 					)
 			);
 		}

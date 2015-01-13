@@ -5,22 +5,19 @@ import java.util.ArrayList;
 public class Arrow {
 	public ArrayList<Point> trajectory;
 	double _x, _y;
+	int hit;
 
 	/**
 	 * Initiate the x and y parameters to bow x and y coordinates
 	 * */
-	public Arrow(float bow_x, float bow_y, float angle, float force)
+	
+	public Arrow(Point start, Point target, Terrain t, float angle, float force)
 	{
-		Shot shoot = new Shot();
-		_x = bow_x;
-		_y = bow_y;
-		
-		shoot.start.SetX(_x);
-		shoot.start.SetY(_y);
+		Shot shoot = new Shot(start, target, t);
 		shoot.SetAngle(angle);
 		shoot.SetForce(force);
 		trajectory = shoot.GetTrajectory();
-
+		hit = shoot.GetAIHit();
 	}
 
 	public double GetX()
@@ -31,6 +28,10 @@ public class Arrow {
 	public double GetY()
 	{
 		return _y;
+	}
+	public int GetHit()
+	{
+		return hit;
 	}
 	
 	public void Advance(int ars,float x,float y)

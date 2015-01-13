@@ -8,7 +8,7 @@ public class Shot {
 	Terrain terrain;
 	private double force, angle, g;
 	private int direction;//1 - prawo, -1 - lewo
-	private int hit;
+	private int hit, aihit = 0;
 	
 	Shot(Point s, Point t, Terrain ter)
 	{
@@ -22,6 +22,7 @@ public class Shot {
 		angle = Math.random()*Math.PI/2;
 		g=9.81;
 		hit = 0;
+		aihit = 0;
 		
 		if(target.GetX()<start.GetX())//okreœla w któr¹ stronê ma strzelaæ gracz komputerowy
 			direction = -1;
@@ -33,13 +34,14 @@ public class Shot {
 		start = new Point();
 		target = new Point();
 		terrain = AppConstants.GetEngine().terrain;
-		if(AppConstants.GetEngine()._lastTouchedX>start.GetX())
-			direction=1;
-		else
-			direction =-1;
+		if(target.GetX()<start.GetX())//okreœla w któr¹ stronê ma strzelaæ gracz komputerowy
+			direction = -1;
+		else 
+			direction = 1;
 		
 		g = 9.81;
 		hit = 0;
+		aihit = 0;
 	}
 
 	public ArrayList<Point> GetTrajectory() 
@@ -52,34 +54,14 @@ public class Shot {
 			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
 			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
 			traj.add(p);
+			if(target.GetX() <= p.GetX() && target.GetX() + AppConstants.SCREEN_WIDTH/64 >= p.GetX() && target.GetY() >= p.GetY() && target.GetY() - AppConstants.SCREEN_HEIGHT/16 <= p.GetY())
+				this.aihit = 1;
 			if(terrain.Collision(p))
 				break;	
 			t+=0.01;
 		}
 		return traj; 
 	}
-/*
-	public double Accuracy()
-	{
-		//tworzy dyskretn¹ trajektoriê lotu strza³y i sprawdza jak blisko celu ona przeleci
-		double min = Double.POSITIVE_INFINITY, t = 0, dist = Double.POSITIVE_INFINITY;
-		Point p = new Point(start.GetX(), start.GetY()- AppConstants.SCREEN_HEIGHT/32);
-		while(!terrain.Collision(p))
-		{
-			if(target.GetX() >= p.GetX() && target.GetX() <= p.GetX() + 30 && target.GetY() >= p.GetY() && target.GetY() <= p.GetY() + 70)
-				hit = 1;
-			else
-				hit = 0;
-
-			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
-			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
-			dist = Math.sqrt(Math.pow((p.GetX()-target.GetX()), 2)+Math.pow((p.GetY()-target.GetY()), 2));
-			if(dist<min)
-				min = dist;
-			t+=0.01;
-		}
-		return min;
-	}*/
 	
 	private double Dist(Point x, Point y)
 	{
@@ -169,7 +151,8 @@ public class Shot {
 	{
 		this.start.Copy(ai.pos);
 		this.target.Copy(player.pos);
-		//hit=0;
+		hit=0;
+		aihit = 0;
 		
 		if(target.GetX()<start.GetX())//okreœla w któr¹ stronê ma strzelaæ gracz komputerowy
 			direction = -1;
@@ -185,6 +168,8 @@ public class Shot {
 	public void SetForce(double f)
 	{
 		force = f;
+		hit=0;
+		aihit = 0;
 	}
 	
 	public double GetAngle()
@@ -196,16 +181,32 @@ public class Shot {
 	{
 		return hit;
 	}
+	
+	public int GetAIHit()
+	{
+		return aihit;
+	}
 
 	public void SetAngle(double a)
 	{
 		angle = a;
+		hit=0;
+		aihit = 0;
+	}
+	
+	public void SetDirection(int d)
+	{
+		direction = d;
+		hit=0;
+		aihit = 0;
 	}
 	
 	public void SetMove(double m)
 	{
 		start.SetX(start.GetX()+m);
 		start.SetY(terrain.Height(start.GetX()));
+		hit=0;
+		aihit = 0;
 	}
 	
 	public void Copy(Shot s)
@@ -217,5 +218,6 @@ public class Shot {
 		this.terrain.Copy(s.terrain);
 		this.direction = s.direction;
 		this.hit = s.hit;
+		this.aihit = s.aihit;
 	}
 }
