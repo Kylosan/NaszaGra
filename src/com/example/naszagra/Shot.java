@@ -54,8 +54,10 @@ public class Shot {
 			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
 			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
 			traj.add(p);
-			if(target.GetX() <= p.GetX() && target.GetX() + AppConstants.SCREEN_WIDTH/64 >= p.GetX() && target.GetY() >= p.GetY() && target.GetY() - AppConstants.SCREEN_HEIGHT/16 <= p.GetY())
-				this.aihit = 1;
+			
+			if(start.GetX()<target.GetX())
+				if(target.GetX() <= p.GetX() && target.GetX() + AppConstants.SCREEN_WIDTH/64 >= p.GetX() && target.GetY() >= p.GetY() && target.GetY() - AppConstants.SCREEN_HEIGHT/16 <= p.GetY())
+					this.aihit = 1;
 			if(terrain.Collision(p))
 				break;	
 			t+=0.01;
@@ -130,6 +132,7 @@ public class Shot {
 	{
 		//tworzy dyskretn¹ trajektoriê lotu strza³y i sprawdza jak blisko celu ona przeleci
 		double t = 0;
+		hit = 0;
 		Point p = new Point(start.GetX(), start.GetY()- AppConstants.SCREEN_HEIGHT/32);
 		while(true)
 		{
@@ -151,8 +154,6 @@ public class Shot {
 	{
 		this.start.Copy(ai.pos);
 		this.target.Copy(player.pos);
-		hit=0;
-		aihit = 0;
 		
 		if(target.GetX()<start.GetX())//okreœla w któr¹ stronê ma strzelaæ gracz komputerowy
 			direction = -1;
@@ -168,8 +169,6 @@ public class Shot {
 	public void SetForce(double f)
 	{
 		force = f;
-		hit=0;
-		aihit = 0;
 	}
 	
 	public double GetAngle()
@@ -190,23 +189,17 @@ public class Shot {
 	public void SetAngle(double a)
 	{
 		angle = a;
-		hit=0;
-		aihit = 0;
 	}
 	
 	public void SetDirection(int d)
 	{
 		direction = d;
-		hit=0;
-		aihit = 0;
 	}
 	
 	public void SetMove(double m)
 	{
 		start.SetX(start.GetX()+m);
 		start.SetY(terrain.Height(start.GetX()));
-		hit=0;
-		aihit = 0;
 	}
 	
 	public void Copy(Shot s)

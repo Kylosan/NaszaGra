@@ -22,13 +22,14 @@ public class Engine
 	static final float DO_NOT_DRAW_Y = Float.MAX_VALUE;
 	float Px, Py,arx5,ary5, arx,ary, powx=100;
 	float terx=0,tery=0;
-	int indeks=10,i, arrowHit=0;
+	int indeks=10,i;
 	Bow bow,ibow;
 	Point arr,arr5,terr;
 	Player player,AI;
 	Terrain terrain;
 	Path mpath = new Path();
-	Boolean turn;
+	Boolean turn, controls=true;
+	Boolean hitP = false, hitAI = false;
 	AlgGen ai;
 	Paint paint,tpaint;
 	//Touching touch;
@@ -48,7 +49,7 @@ public class Engine
 		
 		AI.Move(AppConstants.SCREEN_WIDTH-AI.W*2, terrain.Height(AppConstants.SCREEN_WIDTH-AI.W*2));
 		player.Move(player.W*2, terrain.Height(player.W*2));//TO MUSI BYÆ PRZD STWORZENIEM ai
-		
+		Px = player.W*2;
 		ai = new AlgGen(20, player, AI, terrain);
 		start();
 	}
@@ -83,48 +84,20 @@ public class Engine
 	{
 		if(turn==false)
 		{
+			hitP=true;
 			ai.Update(player, AI);
 			for(int it = 0; it < ai.HowManyIt(); it++)
 				ai.Iteration();
 			IArrow();
-			
-			if(ai.BestShot().GetHit()==1)
-				player.Damage(10);
 			turn = true;
 		}
 		
-	}
-
-	private void DrawTraj(Canvas canvas)//tymczasowe 
-	{
-		tpaint.setColor(Color.RED);
-		tpaint.setStrokeWidth(3);
-		tpaint.setStyle(Paint.Style.STROKE);
-		mpath = new Path();
-		
-		Shot BS = new Shot();
-		BS.Copy(ai.BestShot());
-		
-		ArrayList<Point> points = BS.GetTrajectory();
-		mpath = new Path();
-		
-		for(int i=0; i<points.size(); i++)
-		{
-			
-			terr.Copy(points.get(i));
-			terx=(float) terr.GetX();
-			tery=(float) terr.GetY();
-			if(i==0)
-				mpath.moveTo(terx, tery);
-			else
-				mpath.lineTo(terx, tery);
-		}
-		canvas.drawPath(mpath, tpaint);
 	}
 	
 	public void DrawHealth(Canvas canvas)
 	{
 		paint.setColor(Color.RED);
+		tpaint.setColor(Color.RED);
 		int w = AppConstants.SCREEN_WIDTH;
 		
 		mpath = new Path();
@@ -148,9 +121,6 @@ public class Engine
 
 	private void AdvanceArrows() 
 	{	
-		arrowHit = 0;
-		Boolean t = turn;
-		
 		synchronized (sync) 
 		{
 			for(Arrow a : arrows)
@@ -158,7 +128,6 @@ public class Engine
 				if(indeks<a.trajectory.size())
 				{
 					arr5 = a.trajectory.get(indeks-10);
-					arrowHit = a.GetHit();
 					arx5=(float) arr5.GetX();
 					ary5=(float) arr5.GetY();
 					arr= a.trajectory.get(indeks);
@@ -169,36 +138,57 @@ public class Engine
 					turn = true;
 				}
 				else
-					turn = false;//TO JEST Z£E
+				{
+					if(arx>=arx5)
+					{
+						if(hitAI)
+							AI.Damage(10);
+						hitAI=false;
+						turn = false;
+						controls = false;
+					}
+					else
+					{
+						if(ai.BestShot().GetHit()==1 && hitP)
+							player.Damage(10);
+						hitP=false;
+						controls = true;
+					}
+				}
 			}
 		}
 	}
 	
 	public void PlayerPos(float plaX, float plaY)
 	{
-		if(Px+plaX+player.W < terrain.Obstacles[0].X)
+		if(controls)
 		{
-			Px += plaX;
-			bow.SetX((int) plaX);
-			bow.SetY((int) plaY);		
-
-			player.Move(Px, terrain.Height(Px));
-
+			if(Px+plaX+player.W < terrain.Obstacles[0].X)
+			{
+				Px += plaX;
+				bow.SetX((int) plaX);
+				bow.SetY((int) plaY);		
+	
+				player.Move(Px, terrain.Height(Px));
+	
+			}
 		}
 	}
 
 	public void Draw(Canvas canvas)
 	{
-		DrawControls(canvas);
+		if(controls)
+		{
+			DrawControls(canvas);
+			DrawAim(canvas);
+		}
 		DrawPlayer(canvas);
 		DrawPC(canvas);
 		DrawiBow(canvas);
 		DrawBow(canvas);
 		DrawArrows(canvas);
-		DrawAim(canvas);
 		DrawTerrain(canvas);
 		DrawPow(canvas);
-		//DrawTraj(canvas);
 		DrawHealth(canvas);
 	}
 	
@@ -253,8 +243,7 @@ public class Engine
 			canvas.drawPath(mpath, tpaint);
 		}
 	}
-
-
+	
 	private void DrawPlayer(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
 		canvas.drawBitmap(_player, (float)player.GetDrawX(), (float)player.GetDrawY(), paint);
@@ -327,28 +316,38 @@ public class Engine
 	
 	public void SetBowRotaion(int touch_x, int touch_y) 
 	{
-		float bowRotation = RotationHandler.BowRotationByTouch(touch_x, touch_y, bow);
+		if(controls)
+		{
+			float bowRotation = RotationHandler.BowRotationByTouch(touch_x, touch_y, bow);
 		
-		bow.SetRotation(bowRotation);
+			bow.SetRotation(bowRotation);
+		}
 	}
 
 	public void CreateNewArrow() 
 	{
-		arrows.clear();
-		indeks = 10;
-		synchronized (sync) 
+		if(controls)
 		{
-			arrows.add
-			(
-					new Arrow
-					(
-							new Point(bow.GetX()+player.W,bow.GetY()+player.H*0.7),
-							AI.pos,
-							terrain,
-							(float) Math.toRadians(90-bow.GetRotation()), 
-							powx/8
-					)
-			);
+			arrows.clear();
+			indeks = 10;
+			float b = bow.GetRotation();
+			if(b<180)//Zapobiega strzelaniu gracza w ty³
+				b=0;
+			float ang = (float) Math.toRadians(90-b);
+			synchronized (sync) 
+			{
+				arrows.add
+				(
+						new Arrow
+						(
+								new Point(bow.GetX()+player.W,bow.GetY()+player.H*0.7),
+								AI.pos,
+								terrain,
+								ang,
+								powx/8
+						)
+				);
+			}
 		}
 	}
 	
