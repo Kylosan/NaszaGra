@@ -121,10 +121,12 @@ public class Engine
 
 	private void AdvanceArrows() 
 	{	
+		double p; 
 		synchronized (sync) 
 		{
 			for(Arrow a : arrows)
 			{
+				p = a.trajectory.get(0).GetX();
 				if(indeks<a.trajectory.size())
 				{
 					arr5 = a.trajectory.get(indeks-10);
@@ -139,7 +141,7 @@ public class Engine
 				}
 				else
 				{
-					if(arx>=arx5)
+					if(p < AppConstants.SCREEN_WIDTH/2)
 					{
 						if(hitAI)
 							AI.Damage(10);
@@ -331,8 +333,6 @@ public class Engine
 			arrows.clear();
 			indeks = 10;
 			float b = bow.GetRotation();
-			if(b<180)//Zapobiega strzelaniu gracza w ty³
-				b=0;
 			float ang = (float) Math.toRadians(90-b);
 			synchronized (sync) 
 			{
