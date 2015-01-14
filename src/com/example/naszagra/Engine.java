@@ -197,7 +197,7 @@ public class Engine
 	
 	private void DrawPC(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
-		canvas.drawBitmap(_player, (float)AI.GetDrawX(), (float)AI.GetDrawY(), paint);
+		canvas.drawBitmap(_player, (float)AI.GetX(), (float)AI.GetDrawY(), paint);
 	}
 
 	private void DrawTerrain(Canvas canvas) 
@@ -248,7 +248,7 @@ public class Engine
 	
 	private void DrawPlayer(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
-		canvas.drawBitmap(_player, (float)player.GetDrawX(), (float)player.GetDrawY(), paint);
+		canvas.drawBitmap(_player, (float)player.GetX(), (float)player.GetDrawY(), paint);
 		
 	}
 
@@ -304,7 +304,7 @@ public class Engine
 	{
 		Bitmap _bow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetBow(),bow.GetRotation());
 		//
-		Rect rect = bow.GetRect((int)player.GetDrawX(), (int)player.GetDrawY(), _bow);
+		Rect rect = bow.GetRect((int)player.GetX(), (int)player.GetDrawY(), _bow);
 		//
 		canvas.drawBitmap(_bow, null, rect, paint);
 		//
@@ -312,7 +312,7 @@ public class Engine
 	private void DrawiBow(Canvas canvas) 
 	{
 		Bitmap _ibow = BitmapBank.RotateBitmap( AppConstants.GetBitmapsBank().GetiBow(),(float)Math.toDegrees(ai.BestShot().GetAngle())-90);
-		Rect irect = ibow.iRect((int)AI.GetDrawX(), (int)AI.GetDrawY(), _ibow);
+		Rect irect = ibow.iRect((int)AI.GetX(), (int)AI.GetDrawY(), _ibow);
 		canvas.drawBitmap(_ibow, null, irect, paint);
 	}
 	

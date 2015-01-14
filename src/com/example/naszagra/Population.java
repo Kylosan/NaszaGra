@@ -42,7 +42,7 @@ public class Population {
 	}
 	
 	public void Rate()
-	{//Osenia wszystkie osobniki w populacji
+	{//Ocenia wszystkie osobniki w populacji
 		for(int i = 0; i<count; i++)
 		{
 			double acc = Pop[i].Accuracy();

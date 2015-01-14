@@ -196,12 +196,6 @@ public class Shot {
 		direction = d;
 	}
 	
-	public void SetMove(double m)
-	{
-		start.SetX(start.GetX()+m);
-		start.SetY(terrain.Height(start.GetX()));
-	}
-	
 	public void Copy(Shot s)
 	{
 		this.SetForce(s.GetForce());
