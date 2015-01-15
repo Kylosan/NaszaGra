@@ -44,11 +44,6 @@ public class Player {
 		return pos.GetY();
 	}
 	
-	public double GetDrawX()
-	{
-		return pos.GetX();
-	}
-	
 	public double GetDrawY()
 	{
 		return pos.GetY()-H;
