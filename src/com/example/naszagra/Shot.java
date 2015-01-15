@@ -43,14 +43,15 @@ public class Shot {
 		hit = 0;
 		aihit = 0;
 	}
-
-	public ArrayList<Point> GetTrajectory() 
-	{ 
+	
+	private ArrayList<Point> GetTraj(int help)
+	{
 		ArrayList<Point> traj = new ArrayList<Point>();
 		double t = 0;
+		Point p;
 		while(true)
 		{
-			Point p = new Point();
+			p = new Point();
 			p.SetX(direction*force*t*Math.cos(angle) + start.GetX());
 			p.SetY(-(force*t*Math.sin(angle) - (g*Math.pow(t,2))/2 - start.GetY())- AppConstants.SCREEN_HEIGHT/32);
 			traj.add(p);
@@ -58,11 +59,54 @@ public class Shot {
 			if(start.GetX()<target.GetX())
 				if(target.GetX() <= p.GetX() && target.GetX() + AppConstants.SCREEN_WIDTH/64 >= p.GetX() && target.GetY() >= p.GetY() && target.GetY() - AppConstants.SCREEN_HEIGHT/16 <= p.GetY())
 					this.aihit = 1;
+			
 			if(terrain.Collision(p))
 				break;	
 			t+=0.01;
 		}
-		return traj; 
+		if(help==1)
+		{
+			if(start.GetX()<target.GetX() && p.GetX()> terrain.Obstacles[1].X + terrain.Obstacles[1].height && this.aihit != 1)
+			{
+				if(p.GetX() < target.GetX() && p.GetX() > target.GetX() - 3*AppConstants.SCREEN_WIDTH/64)
+					this.aihit = 2;
+				if(p.GetX() > target.GetX() && p.GetX() < target.GetX() + 4*AppConstants.SCREEN_WIDTH/64)
+					this.aihit = 3;
+			}
+		}
+		
+		return traj;
+	}
+
+	public ArrayList<Point> GetTrajectory() 
+	{ 
+		ArrayList<Point> traj = GetTraj(1);
+		if(start.GetX() > target.GetX())
+			return traj;
+		else
+		{
+			if(this.aihit <= 1)
+				return traj;
+			else
+			{
+				Shot temp = new Shot();
+				temp.Copy(this);
+				int change = 1;
+				while(temp.aihit!=1)
+				{
+					int h = this.aihit;
+					if(this.aihit == 2)
+						temp.force+=(1/change);
+					else if(this.aihit == 3)
+						temp.force-=(1/change);
+					temp.GetTraj(0);
+					if(h != this.aihit)
+						change = 10;
+				}
+				this.aihit = 1;
+				return temp.GetTraj(0);
+			}	
+		}
 	}
 	
 	private double Dist(Point x, Point y)
