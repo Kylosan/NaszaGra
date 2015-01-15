@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 public class BitmapBank {
-Bitmap _bow, _aim, _player, plr,bow;
+Bitmap _bow, _aim, _player, plr,bow,left,right,fire;
 	
 	/**
 	 * Loads bitmaps from the resources
@@ -15,17 +15,29 @@ Bitmap _bow, _aim, _player, plr,bow;
 	 * */
 	public BitmapBank(Resources res)
 	{
+		left = BitmapFactory.decodeResource(res, R.drawable.left);
+		right = BitmapFactory.decodeResource(res, R.drawable.right);
+		fire = BitmapFactory.decodeResource(res, R.drawable.fire);
 		bow = BitmapFactory.decodeResource(res, R.drawable.bow);
-		_bow = BitmapFactory.decodeResource(res, R.drawable.bow);
+		_bow = BitmapFactory.decodeResource(res, R.drawable.ibow);
 		_aim = BitmapFactory.decodeResource(res, R.drawable.aim_ball);
 		_player = BitmapFactory.decodeResource(res, R.drawable.player);
 		//_player.reconfigure(AppConstants.SCREEN_WIDTH/64, AppConstants.SCREEN_HEIGHT/16,null);
 		plr = Bitmap.createScaledBitmap(_player, AppConstants.SCREEN_WIDTH/64, AppConstants.SCREEN_HEIGHT/16, false);
 		
 	}
-	/**
-	 * @return Android Bitmap
-	 * */
+	public Bitmap GetLeft()
+	{
+		return left;
+	}
+	public Bitmap GetRight()
+	{
+		return right;
+	}
+	public Bitmap GetFire()
+	{
+		return fire;
+	}
 	public Bitmap GetBow()
 	{
 		return bow;
