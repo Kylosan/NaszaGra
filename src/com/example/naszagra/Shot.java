@@ -190,8 +190,10 @@ public class Shot {
 				break;
 			t+=0.01;
 		}
-		
-		return Distance(p);
+		double d = Distance(p);
+		//Zak³ocenie b³êdem:
+		d += Math.random()*(AppConstants.SCREEN_WIDTH/10)-(AppConstants.SCREEN_WIDTH/20);
+		return d;
 	}
 	
 	public void SetPlayersPosition(Player player, Player ai)
