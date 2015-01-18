@@ -20,24 +20,15 @@ public class Arrow {
 		hit = shoot.GetAIHit();
 	}
 
-	public double GetX()
-	{
-		return _x;
-	}
-
-	public double GetY()
-	{
-		return _y;
-	}
 	public int GetHit()
 	{
 		return hit;
 	}
 	
-	public void Advance(int ars,float x,float y)
+	public void Advance(float x,float y)
 	{
-		_x += x-_x * ars;
-		_y += y-_y * ars;
+		_x += x-_x;
+		_y += y-_y;
 	}
 	
 }

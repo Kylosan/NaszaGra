@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends ListActivity {
@@ -32,6 +33,7 @@ private class OnMainItemClickListener implements OnItemClickListener
 {
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		TextView t1 = (TextView) findViewById(R.id.textView1);
 		switch (position)
 		{
 			case Pierszy:
@@ -41,13 +43,14 @@ private class OnMainItemClickListener implements OnItemClickListener
 			}
 			case Drugi:
 			{
-				Toast t = Toast.makeText(MainActivity.this, R.string.s2, Toast.LENGTH_LONG);
-				t.show();
+				t1.setText("");
+				t1.setText(R.string.Instructions);
 				return;
 			}
 			case Trzeci:
 			{
-				Toast.makeText(MainActivity.this, R.string.s3, Toast.LENGTH_LONG).show();
+				t1.setText("");
+				t1.setText(R.string.Authors);
 				return;
 			}
 			

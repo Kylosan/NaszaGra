@@ -111,7 +111,7 @@ public class Touching extends Activity {
 			if(AppConstants.GetEngine().arrows.get(0).GetHit()==1)
 				AppConstants.GetEngine().hitAI = true;
 		}
-		 	//AppConstants.GetEngine().SetLastTouch(event.getX(), event.getY());
+		 	
 	}
 	@Override
 	protected Dialog onCreateDialog(int id)

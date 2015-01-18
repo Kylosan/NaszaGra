@@ -1,14 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
- 	android:baselineAligned="false">
+    android:baselineAligned="false"
+    tools:ignore="TextViewEdits" >
 
     <ListView
         android:id="@android:id/list"
-        android:layout_width="0dip"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:entries="@array/mojalista"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:entries="@array/mojalista" >
     </ListView>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="50dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="" />
 
 </LinearLayout>

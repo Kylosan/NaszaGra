@@ -3,7 +3,6 @@
 
     <string name="app_name">Game</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="Pierszy">Graj</string>
     <string name="Drugi">Instrukcja</string>
     <string name="Trzeci">Autorzy</string>
@@ -11,6 +10,7 @@
     <string name="Win">Wygrałeś!</string>
     <string name="dialresult">Wynik</string>
     <string name="Dialbut">OK</string>
+    
 
 
     <string-array name="mojalista">
@@ -19,13 +19,14 @@
         <item>@string/Trzeci</item>
     </string-array>
 
-    <string name="s1">Ein!!!</string>
-    <string name="s2">Zwei!!!</string>
-    <string name="s3">Drei!!!</string>
+
     <string name="dlexit">Koniec</string>
     <string name="dlpos">Tak</string>
     <string name="dlneg">Nie</string>
     <string name="dlask">Na pewno?</string>
     <string name="title_activity_touching">Touching</string>
+    <string name="Authors">Krzysztof Drabik, Bartłomiej Mączka</string>
+    <string name="Instructions">Dotknij: Graj. Przesuń się jeśli chcesz dotykając strzałek kierunkowych, następnie dotknij ekran u dołu by ustawić siłę strzału, potem dotknij i przeciągnij w odpowiednie miejsce by zadać kąt strzału, a gdy wszystko gotowe, strzel dotykając czerwoną tarczę.</string>
+    
 
 </resources>

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,7 +13,6 @@ import android.graphics.Rect;
 
 public class Engine 
 {
-	static final int ARROWS_COUNT = 1; 
 	static List<Arrow> arrows;
 	static final Object sync = new Object();
 	static float _lastTouchedX, _lastTouchedY;
@@ -135,7 +133,7 @@ public class Engine
 					arr= a.trajectory.get(indeks);
 					arx=(float) arr.GetX();
 					ary=(float) arr.GetY();
-					a.Advance(ARROWS_COUNT,arx,ary);
+					a.Advance(arx,ary);
 					indeks+=10;
 					turn = true;
 				}
@@ -254,12 +252,12 @@ public class Engine
 
 
 	private void DrawControls(Canvas canvas) {
-		paint.setColor(Color.GREEN);
-		canvas.drawCircle(50, 50, 50, paint);
-		paint.setColor(Color.RED);
-		canvas.drawCircle(150, 50, 50, paint);
-		paint.setColor(Color.BLUE);
-		canvas.drawCircle(AppConstants.SCREEN_WIDTH-50,50,50,paint);
+
+		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetLeft(), 0, 0, paint);
+
+		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetRight(), 100, 0, paint);
+
+		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetFire(), AppConstants.SCREEN_WIDTH-100, 0, paint);
 	}
 
 	public void powermeter(float p)
@@ -278,7 +276,17 @@ public class Engine
 	}
 	private void DrawPow(Canvas canvas) 
 	{
-
+		paint.setColor(Color.RED);
+		tpaint.setColor(Color.RED);
+		int w = AppConstants.SCREEN_WIDTH;
+		int h = AppConstants.SCREEN_HEIGHT;
+		
+		mpath = new Path();
+		mpath.moveTo(0,(float)h-52);
+		mpath.lineTo((float)w, h-52);
+		mpath.lineTo((float)w, h);
+		mpath.lineTo(0, (float)h);
+		mpath.lineTo(0,(float)h-52);
 	    canvas.drawRect(0, AppConstants.SCREEN_HEIGHT-50, powx, AppConstants.SCREEN_HEIGHT,paint);
 	}
 
