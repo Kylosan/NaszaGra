@@ -23,7 +23,7 @@ public class Population {
 		CumulativeProbability = new double[count];
 		for(int i = 0; i<count; i++)
 			Pop[i] = new Shot(start, target, terrain);
-		this.Rate();
+		this.Rate(0);
 	}
 
 	public Shot BestShot()
@@ -41,11 +41,19 @@ public class Population {
 		return Pop[m];
 	}
 	
-	public void Rate()
+	public void Rate(int it)
 	{//Ocenia wszystkie osobniki w populacji
 		for(int i = 0; i<count; i++)
 		{
 			double acc = Pop[i].Accuracy();
+			
+			//Zak³ócenie b³êdem
+			double p = 10 - it;
+			if(p<1)
+				p=1;
+			p/=100;
+			acc += Math.random()*(AppConstants.SCREEN_WIDTH*p)-(AppConstants.SCREEN_WIDTH*(p/2));
+			
 			if(acc!=0)
 				Rate[i] = 1/acc;
 			else

@@ -191,8 +191,6 @@ public class Shot {
 			t+=0.01;
 		}
 		double d = Distance(p);
-		//Zak³ocenie b³êdem:
-		d += Math.random()*(AppConstants.SCREEN_WIDTH/10)-(AppConstants.SCREEN_WIDTH/20);
 		return d;
 	}
 	
