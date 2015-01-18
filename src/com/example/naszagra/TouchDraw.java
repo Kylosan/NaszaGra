@@ -55,4 +55,8 @@ import android.view.SurfaceView;
            _Thread.start();
        }
    }
+   public Thread GetThread()
+   {
+	   return _Thread;
+   }
 }

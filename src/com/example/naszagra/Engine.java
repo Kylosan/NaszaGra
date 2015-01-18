@@ -30,11 +30,11 @@ public class Engine
 	Boolean hitP = false, hitAI = false;
 	AlgGen ai;
 	Paint paint,tpaint;
-	//Touching touch;
+	Touching touch;
 	
 	public Engine()
 	{
-		//touch = new Touching();
+		touch = new Touching();
 		terrain = new Terrain();
 		AI = new Player(1,1);
 		player = new Player(1,1);
@@ -69,7 +69,7 @@ public class Engine
 		if(player.health==0)
 		{
 			//touch.getlost();
-			//((Touching) context).finish();
+			//AppConstants.StopThread(touch.getthread());
 		}
 		else if(AI.health==0)
 		{
@@ -181,6 +181,7 @@ public class Engine
 		{
 			DrawControls(canvas);
 			DrawAim(canvas);
+			DrawPow(canvas);
 		}
 		DrawPlayer(canvas);
 		DrawPC(canvas);
@@ -188,7 +189,6 @@ public class Engine
 		DrawBow(canvas);
 		DrawArrows(canvas);
 		DrawTerrain(canvas);
-		DrawPow(canvas);
 		DrawHealth(canvas);
 	}
 	
@@ -247,7 +247,6 @@ public class Engine
 	private void DrawPlayer(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
 		canvas.drawBitmap(_player, (float)player.GetX(), (float)player.GetDrawY(), paint);
-		
 	}
 
 
@@ -277,7 +276,7 @@ public class Engine
 	private void DrawPow(Canvas canvas) 
 	{
 		paint.setColor(Color.RED);
-		tpaint.setColor(Color.RED);
+		tpaint.setColor(Color.BLUE);
 		int w = AppConstants.SCREEN_WIDTH;
 		int h = AppConstants.SCREEN_HEIGHT;
 		
@@ -287,6 +286,7 @@ public class Engine
 		mpath.lineTo((float)w, h);
 		mpath.lineTo(0, (float)h);
 		mpath.lineTo(0,(float)h-52);
+		canvas.drawPath(mpath, tpaint);
 	    canvas.drawRect(0, AppConstants.SCREEN_HEIGHT-50, powx, AppConstants.SCREEN_HEIGHT,paint);
 	}
 

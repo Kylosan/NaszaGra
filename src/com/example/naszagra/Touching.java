@@ -12,18 +12,24 @@ public class Touching extends Activity {
 
     private static final int DIALOG_WIN = 1;
 	private static final int DIALOG_LOST = 0;
-
+	public SurfaceView view;
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
 	 super.onCreate(savedInstanceState);
      
 	 AppConstants.Initialization(this.getApplicationContext());
-     SurfaceView view = new TouchDraw(this, AppConstants.GetEngine());
+     view = new TouchDraw(this, AppConstants.GetEngine());
      setContentView(view);
-     //getActionBar().hide();
  }
-
+	public Touching()
+	{
+		
+	}
+	public Thread getthread()
+	{
+		return ((TouchDraw) view).GetThread();
+	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) 
 	{
@@ -86,6 +92,7 @@ public class Touching extends Activity {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	private void OnActionDown(MotionEvent event) 
 	{
 		float x = event.getX();
@@ -117,7 +124,7 @@ public class Touching extends Activity {
 	protected Dialog onCreateDialog(int id)
 	{
 		
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this.getApplicationContext());
 		builder.setCancelable(false);
 		switch(id)
 		{
