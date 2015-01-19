@@ -20,7 +20,7 @@ public class Engine
 	static final float DO_NOT_DRAW_Y = Float.MAX_VALUE;
 	float Px, Py,arx5,ary5, arx,ary, powx=100;
 	float terx=0,tery=0;
-	int indeks=10,i;
+	int indeks=10,i, win = 0;
 	Bow bow,ibow;
 	Point arr,arr5,terr;
 	Player player,AI;
@@ -68,12 +68,11 @@ public class Engine
 	private void HealthCheck() {
 		if(player.health==0)
 		{
-			//touch.getlost();
-			//AppConstants.StopThread(touch.getthread());
+			win = 2;
 		}
 		else if(AI.health==0)
 		{
-			//touch.getwin();
+			win = 1;
 		}
 		
 	}
@@ -190,8 +189,31 @@ public class Engine
 		DrawArrows(canvas);
 		DrawTerrain(canvas);
 		DrawHealth(canvas);
+		if(win == 1)//player
+			DrawWin(canvas);
+		else if(win == 2)//Ai
+			DrawLost(canvas);
 	}
 	
+	private void DrawWin(Canvas canvas) 
+	{
+		paint.setColor(Color.WHITE);
+		int w = AppConstants.SCREEN_WIDTH, h = AppConstants.SCREEN_HEIGHT;
+		canvas.drawRect(0, 0, w, h, paint);
+		paint.setColor(Color.RED);
+		paint.setTextSize(64);
+		canvas.drawText("WYGRANA!", (float)(w*0.4), h/2, paint);
+	}
+	
+	private void DrawLost(Canvas canvas) 
+	{
+		paint.setColor(Color.WHITE);
+		int w = AppConstants.SCREEN_WIDTH, h = AppConstants.SCREEN_HEIGHT;
+		canvas.drawRect(0, 0, w, h, paint);
+		paint.setColor(Color.RED);
+		paint.setTextSize(64);
+		canvas.drawText("PRZEGRANA!", (float)(w*0.4), h/2, paint);
+	}
 	
 	private void DrawPC(Canvas canvas) {
 		Bitmap _player = AppConstants.GetBitmapsBank().GetPlayer();
@@ -256,7 +278,7 @@ public class Engine
 
 		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetRight(), 100, 0, paint);
 
-		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetFire(), AppConstants.SCREEN_WIDTH-100, 0, paint);
+		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetFire(), AppConstants.SCREEN_WIDTH-120, 0, paint);
 	}
 
 	public void powermeter(float p)
