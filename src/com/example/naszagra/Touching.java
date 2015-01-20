@@ -1,18 +1,13 @@
 package com.example.naszagra;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 public class Touching extends Activity {
 
-    private static final int DIALOG_WIN = 1;
-	private static final int DIALOG_LOST = 0;
-	public SurfaceView view;
+    public SurfaceView view;
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -65,13 +60,18 @@ public class Touching extends Activity {
 		int y = (int)event.getY();
 		
 		
-		
+		if(x>AppConstants.GetEngine().player.GetX()-150 && 
+				x<AppConstants.GetEngine().player.GetX()+150 &&
+				y>AppConstants.GetEngine().player.GetDrawY()-150 &&
+				y<AppConstants.GetEngine().player.GetDrawY()+150)
+		{
 		if(GetIfTouchInTheZone(x, y))
 		{
 			 AppConstants.GetEngine().SetBowRotaion(x, y);
 		}
 		
 		AppConstants.GetEngine().SetLastTouch(event.getX(), event.getY());
+		}
 	}
 
 
@@ -85,10 +85,15 @@ public class Touching extends Activity {
 		int x = (int)event.getX();
 		int y = (int)event.getY();
 		
-		
+		if(x>AppConstants.GetEngine().player.GetX()-150 && 
+				x<AppConstants.GetEngine().player.GetX()+150 &&
+				y>AppConstants.GetEngine().player.GetY() &&
+				y<AppConstants.GetEngine().player.GetY()+150)
+		{
 		if(GetIfTouchInTheZone(x, y))
 		{
 			 AppConstants.GetEngine().SetBowRotaion(x, y); 
+		}
 		}
 	}
 
@@ -119,55 +124,5 @@ public class Touching extends Activity {
 				AppConstants.GetEngine().hitAI = true;
 		}
 		 	
-	}
-	@Override
-	protected Dialog onCreateDialog(int id)
-	{
-		
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this.getApplicationContext());
-		builder.setCancelable(false);
-		switch(id)
-		{
-		case DIALOG_LOST:
-			builder.setTitle(R.string.dialresult);
-			builder.setIcon(android.R.drawable.ic_dialog_alert);
-			builder.setMessage(R.string.Lost);
-			builder.setNeutralButton(R.string.dlpos, new DialogInterface.OnClickListener()
-			{
-				
-				@Override
-				public void onClick(DialogInterface dialog, int arg1)
-				{
-					finish();
-				}
-			});
-		case DIALOG_WIN:
-			builder.setTitle(R.string.dialresult);
-			builder.setIcon(android.R.drawable.ic_dialog_alert);
-			builder.setMessage(R.string.Win);
-			builder.setNeutralButton(R.string.dlpos, new DialogInterface.OnClickListener()
-			{
-				
-				@Override
-				public void onClick(DialogInterface dialog, int arg1)
-				{
-					finish();
-				}
-			});
-			
-			break;
-		}
-		return builder.create();
-	}
-	
-	@SuppressWarnings("deprecation")
-	public void getwin()
-	{
-		showDialog(DIALOG_WIN);
-	}
-	@SuppressWarnings("deprecation")
-	public void getlost()
-	{
-		showDialog(DIALOG_LOST);
 	}
 }

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.Rect;
 
@@ -190,9 +191,15 @@ public class Engine
 		DrawTerrain(canvas);
 		DrawHealth(canvas);
 		if(win == 1)//player
+		{
 			DrawWin(canvas);
+			turn=true;
+		}
 		else if(win == 2)//Ai
+		{
 			DrawLost(canvas);
+			turn=true;
+		}
 	}
 	
 	private void DrawWin(Canvas canvas) 
@@ -202,7 +209,8 @@ public class Engine
 		canvas.drawRect(0, 0, w, h, paint);
 		paint.setColor(Color.RED);
 		paint.setTextSize(64);
-		canvas.drawText("WYGRANA!", (float)(w*0.4), h/2, paint);
+		paint.setTextAlign(Align.CENTER);
+		canvas.drawText("WYGRANA!", w/2, h/2, paint);
 	}
 	
 	private void DrawLost(Canvas canvas) 
@@ -212,7 +220,8 @@ public class Engine
 		canvas.drawRect(0, 0, w, h, paint);
 		paint.setColor(Color.RED);
 		paint.setTextSize(64);
-		canvas.drawText("PRZEGRANA!", (float)(w*0.4), h/2, paint);
+		paint.setTextAlign(Align.CENTER);
+		canvas.drawText("PRZEGRANA!", w/2, h/2, paint);
 	}
 	
 	private void DrawPC(Canvas canvas) {
@@ -278,7 +287,7 @@ public class Engine
 
 		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetRight(), 100, 0, paint);
 
-		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetFire(), AppConstants.SCREEN_WIDTH-120, 0, paint);
+		canvas.drawBitmap(AppConstants.GetBitmapsBank().GetFire(), AppConstants.SCREEN_WIDTH-AppConstants.GetBitmapsBank().GetFire().getWidth(), 0, paint);
 	}
 
 	public void powermeter(float p)

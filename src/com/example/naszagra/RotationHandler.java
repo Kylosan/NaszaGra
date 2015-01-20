@@ -40,7 +40,7 @@ public class RotationHandler {
 
 	private static boolean CheckIsOnLeftSideScreen(float touch_x) 
 	{
-		return touch_x > AppConstants.SCREEN_WIDTH / 2;
+		return touch_x > AppConstants.GetEngine().player.GetX();
 	}
 
 	public static boolean CheckIfTouchIsInTheZone(float touch_x, float touch_y, Bow bow) 
