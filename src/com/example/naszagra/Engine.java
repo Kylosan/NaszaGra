@@ -144,7 +144,14 @@ public class Engine
 						if(hitAI)
 							AI.Damage(10);
 						hitAI=false;
+						if(AI.health==0)
+							{
+							turn=true;
+							}
+						else
+						{
 						turn = false;
+						}
 						controls = false;
 					}
 					else
